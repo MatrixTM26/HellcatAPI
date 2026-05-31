@@ -1,0 +1,41 @@
+# Build output
+target/
+*.jar
+dependency-reduced-pom.xml
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Certificates & keys
+certs/
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temp
+*.tmp
+*.bak
+*.swp
+*~

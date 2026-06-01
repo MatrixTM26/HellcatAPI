@@ -2,27 +2,27 @@ package hellcat.core.router;
 
 import hellcat.core.middleware.HellcatMiddleware;
 import hellcat.core.request.HellcatRequest;
-
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class HellcatRouter {
-    private final String                         Prefix;
-    private final List<HellcatRoute>             Routes;
-    private final List<HellcatMiddleware>        GlobalMiddlewares;
+
+    private final String Prefix;
+    private final List<HellcatRoute> Routes;
+    private final List<HellcatMiddleware> GlobalMiddlewares;
     private final Map<Integer, BiFunction<HellcatRequest, Exception, Object>> ErrorHandlers;
-    private StaticMount                          StaticMountPoint;
+    private StaticMount StaticMountPoint;
 
     public HellcatRouter() {
         this("");
     }
 
     public HellcatRouter(String Prefix) {
-        this.Prefix            = Prefix.replaceAll("/+$", "");
-        this.Routes            = new ArrayList<>();
+        this.Prefix = Prefix.replaceAll("/+$", "");
+        this.Routes = new ArrayList<>();
         this.GlobalMiddlewares = new ArrayList<>();
-        this.ErrorHandlers     = new HashMap<>();
+        this.ErrorHandlers = new HashMap<>();
     }
 
     private String NormalizePath(String Path) {
@@ -31,7 +31,12 @@ public class HellcatRouter {
         return Full.isEmpty() ? "/" : Full;
     }
 
-    public void AddRoute(String Path, Function<HellcatRequest, Object> Handler, List<String> Methods, List<HellcatMiddleware> Middlewares) {
+    public void AddRoute(
+        String Path,
+        Function<HellcatRequest, Object> Handler,
+        List<String> Methods,
+        List<HellcatMiddleware> Middlewares
+    ) {
         String FullPath = NormalizePath(Path);
         Routes.add(new HellcatRoute(FullPath, Handler, Methods, Middlewares));
     }
@@ -111,7 +116,7 @@ public class HellcatRouter {
             Map<String, String> Params = Route.Match(Request.Path);
             if (Params != null) {
                 Request.PathParams = Params;
-                return new HellcatRoute[]{Route};
+                return new HellcatRoute[] { Route };
             }
         }
         return null;
@@ -139,11 +144,12 @@ public class HellcatRouter {
     }
 
     public static class StaticMount {
+
         public final String UrlPrefix;
         public final String DirectoryPath;
 
         public StaticMount(String UrlPrefix, String DirectoryPath) {
-            this.UrlPrefix     = UrlPrefix;
+            this.UrlPrefix = UrlPrefix;
             this.DirectoryPath = DirectoryPath;
         }
     }

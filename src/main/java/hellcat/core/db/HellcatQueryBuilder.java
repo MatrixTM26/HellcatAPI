@@ -3,18 +3,19 @@ package hellcat.core.db;
 import java.util.*;
 
 public class HellcatQueryBuilder {
-    private final HellcatDB       DB;
-    private final String          TableName;
-    private final List<String>    Conditions  = new ArrayList<>();
-    private final List<Object>    Params      = new ArrayList<>();
-    private final List<String>    OrderByCols = new ArrayList<>();
-    private       Integer         LimitVal    = null;
-    private       Integer         OffsetVal   = null;
-    private       List<String>    SelectCols  = List.of("*");
-    private final List<String>    JoinClauses = new ArrayList<>();
+
+    private final HellcatDB DB;
+    private final String TableName;
+    private final List<String> Conditions = new ArrayList<>();
+    private final List<Object> Params = new ArrayList<>();
+    private final List<String> OrderByCols = new ArrayList<>();
+    private Integer LimitVal = null;
+    private Integer OffsetVal = null;
+    private List<String> SelectCols = List.of("*");
+    private final List<String> JoinClauses = new ArrayList<>();
 
     public HellcatQueryBuilder(HellcatDB DB, String TableName) {
-        this.DB        = DB;
+        this.DB = DB;
         this.TableName = TableName;
     }
 
@@ -84,12 +85,13 @@ public class HellcatQueryBuilder {
     private String BuildSQL() {
         StringBuilder SQL = new StringBuilder("SELECT ")
             .append(String.join(", ", SelectCols))
-            .append(" FROM ").append(TableName);
+            .append(" FROM ")
+            .append(TableName);
 
         for (String J : JoinClauses) SQL.append(" ").append(J);
         if (!Conditions.isEmpty()) SQL.append(" WHERE ").append(String.join(" AND ", Conditions));
         if (!OrderByCols.isEmpty()) SQL.append(" ORDER BY ").append(String.join(", ", OrderByCols));
-        if (LimitVal  != null) SQL.append(" LIMIT ").append(LimitVal);
+        if (LimitVal != null) SQL.append(" LIMIT ").append(LimitVal);
         if (OffsetVal != null) SQL.append(" OFFSET ").append(OffsetVal);
         return SQL.toString();
     }
@@ -103,9 +105,9 @@ public class HellcatQueryBuilder {
         Q.Conditions.addAll(this.Conditions);
         Q.Params.addAll(this.Params);
         Q.OrderByCols.addAll(this.OrderByCols);
-        Q.SelectCols  = this.SelectCols;
+        Q.SelectCols = this.SelectCols;
         Q.JoinClauses.addAll(this.JoinClauses);
-        Q.LimitVal    = 1;
+        Q.LimitVal = 1;
         List<Map<String, Object>> Rows = DB.Query(Q.BuildSQL(), Q.Params.toArray());
         return Rows.isEmpty() ? null : Rows.get(0);
     }
@@ -123,15 +125,17 @@ public class HellcatQueryBuilder {
 
     public int Update(Map<String, Object> Data) {
         if (Data.isEmpty()) return 0;
-        List<String> Sets   = new ArrayList<>();
+        List<String> Sets = new ArrayList<>();
         List<Object> Values = new ArrayList<>();
         for (Map.Entry<String, Object> E : Data.entrySet()) {
             Sets.add(E.getKey() + " = ?");
             Values.add(E.getValue());
         }
         Values.addAll(Params);
-        StringBuilder SQL = new StringBuilder("UPDATE ").append(TableName)
-            .append(" SET ").append(String.join(", ", Sets));
+        StringBuilder SQL = new StringBuilder("UPDATE ")
+            .append(TableName)
+            .append(" SET ")
+            .append(String.join(", ", Sets));
         if (!Conditions.isEmpty()) SQL.append(" WHERE ").append(String.join(" AND ", Conditions));
         return DB.Execute(SQL.toString(), Values.toArray());
     }
@@ -143,7 +147,7 @@ public class HellcatQueryBuilder {
     }
 
     public Map<String, Object> Paginate(int Page, int PerPage) {
-        Page    = Math.max(1, Page);
+        Page = Math.max(1, Page);
         PerPage = Math.max(1, PerPage);
         int Total = Count();
 
@@ -151,21 +155,21 @@ public class HellcatQueryBuilder {
         Q.Conditions.addAll(this.Conditions);
         Q.Params.addAll(this.Params);
         Q.OrderByCols.addAll(this.OrderByCols);
-        Q.SelectCols  = this.SelectCols;
+        Q.SelectCols = this.SelectCols;
         Q.JoinClauses.addAll(this.JoinClauses);
-        Q.LimitVal    = PerPage;
-        Q.OffsetVal   = (Page - 1) * PerPage;
+        Q.LimitVal = PerPage;
+        Q.OffsetVal = (Page - 1) * PerPage;
         List<Map<String, Object>> Rows = Q.All();
 
         int TotalPages = Math.max(1, (int) Math.ceil((double) Total / PerPage));
         Map<String, Object> Result = new LinkedHashMap<>();
-        Result.put("Data",       Rows);
-        Result.put("Total",      Total);
-        Result.put("Page",       Page);
-        Result.put("PerPage",    PerPage);
+        Result.put("Data", Rows);
+        Result.put("Total", Total);
+        Result.put("Page", Page);
+        Result.put("PerPage", PerPage);
         Result.put("TotalPages", TotalPages);
-        Result.put("HasNext",    Page * PerPage < Total);
-        Result.put("HasPrev",    Page > 1);
+        Result.put("HasNext", Page * PerPage < Total);
+        Result.put("HasPrev", Page > 1);
         return Result;
     }
 }

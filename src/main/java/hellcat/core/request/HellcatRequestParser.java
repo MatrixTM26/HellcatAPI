@@ -9,10 +9,11 @@ public class HellcatRequestParser {
 
     public static HellcatRequest Parse(byte[] RawData, String[] RemoteAddress) {
         HellcatRequest Request = new HellcatRequest();
-        Request.RemoteAddress  = RemoteAddress;
+        Request.RemoteAddress = RemoteAddress;
 
-        if (RawData == null || RawData.length == 0)
-            throw new HellcatRequest.HellcatRequestParseException("Empty request data received");
+        if (RawData == null || RawData.length == 0) throw new HellcatRequest.HellcatRequestParseException(
+            "Empty request data received"
+        );
 
         try {
             int SepIndex = IndexOfDoubleCrlf(RawData);
@@ -21,28 +22,30 @@ public class HellcatRequestParser {
 
             if (SepIndex == -1) {
                 HeaderBytes = RawData;
-                BodyBytes   = new byte[0];
+                BodyBytes = new byte[0];
             } else {
                 HeaderBytes = Arrays.copyOfRange(RawData, 0, SepIndex);
-                BodyBytes   = Arrays.copyOfRange(RawData, SepIndex + 4, RawData.length);
+                BodyBytes = Arrays.copyOfRange(RawData, SepIndex + 4, RawData.length);
             }
 
             Request.Body = BodyBytes;
             String HeaderSection = new String(HeaderBytes, StandardCharsets.UTF_8);
             String[] Lines = HeaderSection.split("\r\n");
 
-            if (Lines.length == 0 || Lines[0].isBlank())
-                throw new HellcatRequest.HellcatRequestParseException("Missing HTTP request line");
+            if (Lines.length == 0 || Lines[0].isBlank()) throw new HellcatRequest.HellcatRequestParseException(
+                "Missing HTTP request line"
+            );
 
             ParseRequestLine(Request, Lines[0]);
             ParseHeaders(Request, Lines, 1);
             ParseCookies(Request);
             ParseBody(Request);
-
         } catch (HellcatRequest.HellcatRequestParseException E) {
             throw E;
         } catch (Exception E) {
-            throw new HellcatRequest.HellcatRequestParseException("Unexpected error while parsing request: " + E.getMessage());
+            throw new HellcatRequest.HellcatRequestParseException(
+                "Unexpected error while parsing request: " + E.getMessage()
+            );
         }
 
         return Request;
@@ -50,27 +53,27 @@ public class HellcatRequestParser {
 
     private static int IndexOfDoubleCrlf(byte[] Data) {
         for (int I = 0; I < Data.length - 3; I++) {
-            if (Data[I] == '\r' && Data[I+1] == '\n' && Data[I+2] == '\r' && Data[I+3] == '\n')
-                return I;
+            if (Data[I] == '\r' && Data[I + 1] == '\n' && Data[I + 2] == '\r' && Data[I + 3] == '\n') return I;
         }
         return -1;
     }
 
     private static void ParseRequestLine(HellcatRequest Request, String Line) {
         String[] Parts = Line.trim().split(" ", 3);
-        if (Parts.length < 2)
-            throw new HellcatRequest.HellcatRequestParseException("Malformed HTTP request line: '" + Line + "'");
+        if (Parts.length < 2) throw new HellcatRequest.HellcatRequestParseException(
+            "Malformed HTTP request line: '" + Line + "'"
+        );
 
-        Request.Method      = Parts[0].toUpperCase();
-        String FullPath     = Parts[1];
+        Request.Method = Parts[0].toUpperCase();
+        String FullPath = Parts[1];
         Request.HttpVersion = Parts.length > 2 ? Parts[2] : "HTTP/1.1";
 
         int QPos = FullPath.indexOf('?');
         if (QPos >= 0) {
-            Request.Path       = Decode(FullPath.substring(0, QPos));
+            Request.Path = Decode(FullPath.substring(0, QPos));
             Request.QueryParams = ParseQueryString(FullPath.substring(QPos + 1));
         } else {
-            Request.Path        = Decode(FullPath);
+            Request.Path = Decode(FullPath);
             Request.QueryParams = new HashMap<>();
         }
     }
@@ -80,7 +83,7 @@ public class HellcatRequestParser {
             String Line = Lines[I];
             int Colon = Line.indexOf(": ");
             if (Colon >= 0) {
-                String Key   = Line.substring(0, Colon).toLowerCase().trim();
+                String Key = Line.substring(0, Colon).toLowerCase().trim();
                 String Value = Line.substring(Colon + 2).trim();
                 Request.Headers.put(Key, Value);
             }
@@ -124,7 +127,7 @@ public class HellcatRequestParser {
         if (!ContentType.contains("boundary=")) return;
 
         String BoundaryStr = ContentType.substring(ContentType.indexOf("boundary=") + 9).trim();
-        byte[] Boundary    = ("--" + BoundaryStr).getBytes(StandardCharsets.UTF_8);
+        byte[] Boundary = ("--" + BoundaryStr).getBytes(StandardCharsets.UTF_8);
         List<byte[]> Parts = SplitBytes(Request.Body, Boundary);
 
         for (int I = 1; I < Parts.size(); I++) {
@@ -154,7 +157,7 @@ public class HellcatRequestParser {
             }
 
             String FieldName = ExtractDispositionParam(Disposition, "name");
-            String Filename  = ExtractDispositionParam(Disposition, "filename");
+            String Filename = ExtractDispositionParam(Disposition, "filename");
 
             if (FieldName == null) continue;
 
@@ -176,7 +179,10 @@ public class HellcatRequestParser {
         for (int I = 0; I <= Source.length - Delimiter.length; I++) {
             boolean Match = true;
             for (int J = 0; J < Delimiter.length; J++) {
-                if (Source[I + J] != Delimiter[J]) { Match = false; break; }
+                if (Source[I + J] != Delimiter[J]) {
+                    Match = false;
+                    break;
+                }
             }
             if (Match) {
                 Result.add(Arrays.copyOfRange(Source, Start, I));
@@ -193,7 +199,7 @@ public class HellcatRequestParser {
         int Pos = Disposition.indexOf(Key);
         if (Pos == -1) return null;
         int Start = Pos + Key.length();
-        int End   = Disposition.indexOf('"', Start);
+        int End = Disposition.indexOf('"', Start);
         if (End == -1) return null;
         return Disposition.substring(Start, End);
     }
@@ -212,7 +218,10 @@ public class HellcatRequestParser {
     }
 
     private static String Decode(String Value) {
-        try { return URLDecoder.decode(Value, StandardCharsets.UTF_8.name()); }
-        catch (UnsupportedEncodingException E) { return Value; }
+        try {
+            return URLDecoder.decode(Value, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException E) {
+            return Value;
+        }
     }
 }

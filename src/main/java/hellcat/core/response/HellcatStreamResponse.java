@@ -7,16 +7,17 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class HellcatStreamResponse {
+
     public final Supplier<Iterable<byte[]>> GeneratorFunc;
-    public final String                     ContentType;
-    public final int                        StatusCode = 200;
-    public final Map<String, String>        Headers;
+    public final String ContentType;
+    public final int StatusCode = 200;
+    public final Map<String, String> Headers;
 
     public HellcatStreamResponse(Supplier<Iterable<byte[]>> GeneratorFunc, String ContentType) {
         this.GeneratorFunc = GeneratorFunc;
-        this.ContentType   = ContentType;
-        this.Headers       = new LinkedHashMap<>();
-        this.Headers.put("Cache-Control",    "no-cache");
+        this.ContentType = ContentType;
+        this.Headers = new LinkedHashMap<>();
+        this.Headers.put("Cache-Control", "no-cache");
         this.Headers.put("X-Accel-Buffering", "no");
     }
 

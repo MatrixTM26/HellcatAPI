@@ -1,7 +1,6 @@
 package hellcat.core.server;
 
 import hellcat.core.router.HellcatRouter;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,30 +10,37 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HellcatServer {
-    public static final String DefaultHost = "0.0.0.0";
-    public static final int    DefaultPort = 9926;
 
-    private final HellcatRouter       Router;
-    private final String              Host;
-    private final int                 Port;
-    private final int                 Workers;
+    public static final String DefaultHost = "0.0.0.0";
+    public static final int DefaultPort = 9926;
+
+    private final HellcatRouter Router;
+    private final String Host;
+    private final int Port;
+    private final int Workers;
     private final HellcatServerLogger Logger;
 
-    private final AtomicBoolean       IsRunning    = new AtomicBoolean(false);
-    private       ServerSocket        ServerSock;
-    private       ExecutorService     ThreadPool;
+    private final AtomicBoolean IsRunning = new AtomicBoolean(false);
+    private ServerSocket ServerSock;
+    private ExecutorService ThreadPool;
 
     public static class HellcatServerException extends RuntimeException {
-        public HellcatServerException(String Message) { super(Message); }
-        public HellcatServerException(String Message, Throwable Cause) { super(Message, Cause); }
+
+        public HellcatServerException(String Message) {
+            super(Message);
+        }
+
+        public HellcatServerException(String Message, Throwable Cause) {
+            super(Message, Cause);
+        }
     }
 
     public HellcatServer(HellcatRouter Router, String Host, int Port, int Workers, HellcatServerLogger Logger) {
-        this.Router  = Router;
-        this.Host    = Host;
-        this.Port    = Port;
+        this.Router = Router;
+        this.Host = Host;
+        this.Port = Port;
         this.Workers = Workers > 0 ? Workers : Runtime.getRuntime().availableProcessors() * 4;
-        this.Logger  = Logger;
+        this.Logger = Logger;
     }
 
     public void Start(boolean Blocking) {
@@ -70,9 +76,9 @@ public class HellcatServer {
         while (IsRunning.get()) {
             try {
                 Socket Client = ServerSock.accept();
-                String Ip     = Client.getInetAddress().getHostAddress();
-                String Port   = String.valueOf(Client.getPort());
-                ThreadPool.submit(new HellcatConnectionHandler(Client, new String[]{Ip, Port}, Router, Logger));
+                String Ip = Client.getInetAddress().getHostAddress();
+                String Port = String.valueOf(Client.getPort());
+                ThreadPool.submit(new HellcatConnectionHandler(Client, new String[] { Ip, Port }, Router, Logger));
             } catch (IOException E) {
                 if (IsRunning.get()) Logger.ERROR("Accept loop error: %s", E.getMessage());
             }
@@ -82,7 +88,9 @@ public class HellcatServer {
     public void Stop() {
         IsRunning.set(false);
         Logger.StopStatsTicker();
-        try { if (ServerSock != null) ServerSock.close(); } catch (IOException E) {}
+        try {
+            if (ServerSock != null) ServerSock.close();
+        } catch (IOException E) {}
         if (ThreadPool != null) ThreadPool.shutdownNow();
         Logger.Shutdown();
     }

@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 public class HellcatTransactionContext implements AutoCloseable {
+
     private final Connection Conn;
-    private final Runnable   ReleaseConn;
-    private       boolean    Committed = false;
+    private final Runnable ReleaseConn;
+    private boolean Done = false;
 
     public HellcatTransactionContext(Connection Conn, Runnable ReleaseConn) {
-        this.Conn        = Conn;
+        this.Conn = Conn;
         this.ReleaseConn = ReleaseConn;
     }
 
@@ -18,7 +19,8 @@ public class HellcatTransactionContext implements AutoCloseable {
         try {
             PreparedStatement Stmt = Conn.prepareStatement(SQL);
             for (int I = 0; I < Params.length; I++) Stmt.setObject(I + 1, Params[I]);
-            return HellcatDB.MapResultSet(Stmt.executeQuery());
+            ResultSet Rs = Stmt.executeQuery();
+            return HellcatDB.MapResultSet(Rs);
         } catch (SQLException E) {
             throw new HellcatDB.HellcatDBQueryException("Transaction query failed: " + E.getMessage(), E);
         }
@@ -48,24 +50,33 @@ public class HellcatTransactionContext implements AutoCloseable {
     }
 
     public void Commit() {
+        if (Done) throw new HellcatDB.HellcatDBException("Transaction already closed");
         try {
             Conn.commit();
-            Committed = true;
+            Done = true;
         } catch (SQLException E) {
             throw new HellcatDB.HellcatDBException("Commit failed: " + E.getMessage(), E);
+        } finally {
+            ReleaseConn.run();
         }
     }
 
     public void Rollback() {
-        try { Conn.rollback(); } catch (SQLException E) {}
+        if (Done) return;
+        try {
+            Conn.rollback();
+        } catch (SQLException E) {}
+        Done = true;
+        ReleaseConn.run();
     }
 
     @Override
     public void close() {
+        if (Done) return;
         try {
-            if (!Committed) Conn.rollback();
-            Conn.setAutoCommit(true);
+            Conn.rollback();
         } catch (SQLException E) {}
+        Done = true;
         ReleaseConn.run();
     }
 }

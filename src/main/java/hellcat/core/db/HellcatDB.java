@@ -7,26 +7,45 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class HellcatDB {
-    private final String          DSN;
-    private final HellcatDBPool   Pool;
+
+    private final String DSN;
+    private final HellcatDBPool Pool;
 
     public static class HellcatDBException extends RuntimeException {
-        public HellcatDBException(String Message) { super(Message); }
-        public HellcatDBException(String Message, Throwable Cause) { super(Message, Cause); }
+
+        public HellcatDBException(String Message) {
+            super(Message);
+        }
+
+        public HellcatDBException(String Message, Throwable Cause) {
+            super(Message, Cause);
+        }
     }
 
     public static class HellcatDBQueryException extends HellcatDBException {
-        public HellcatDBQueryException(String Message) { super(Message); }
-        public HellcatDBQueryException(String Message, Throwable Cause) { super(Message, Cause); }
+
+        public HellcatDBQueryException(String Message) {
+            super(Message);
+        }
+
+        public HellcatDBQueryException(String Message, Throwable Cause) {
+            super(Message, Cause);
+        }
     }
 
     public static class HellcatDBMigrationException extends HellcatDBException {
-        public HellcatDBMigrationException(String Message) { super(Message); }
-        public HellcatDBMigrationException(String Message, Throwable Cause) { super(Message, Cause); }
+
+        public HellcatDBMigrationException(String Message) {
+            super(Message);
+        }
+
+        public HellcatDBMigrationException(String Message, Throwable Cause) {
+            super(Message, Cause);
+        }
     }
 
     public HellcatDB(String DSN, int PoolSize, Map<String, String> AutoMigrate) {
-        this.DSN  = DSN;
+        this.DSN = DSN;
         this.Pool = new HellcatDBPool(DSN, PoolSize);
         if (AutoMigrate != null && !AutoMigrate.isEmpty()) {
             Migrate(AutoMigrate);
@@ -86,17 +105,18 @@ public class HellcatDB {
     }
 
     public long InsertRow(String Table, Map<String, Object> Data) {
-        List<String> Cols   = new ArrayList<>(Data.keySet());
+        List<String> Cols = new ArrayList<>(Data.keySet());
         List<Object> Values = new ArrayList<>(Data.values());
         String Cols_ = String.join(", ", Cols);
-        String Phs_  = String.join(", ", Collections.nCopies(Cols.size(), "?"));
+        String Phs_ = String.join(", ", Collections.nCopies(Cols.size(), "?"));
         return Insert("INSERT INTO " + Table + " (" + Cols_ + ") VALUES (" + Phs_ + ")", Values.toArray());
     }
 
     public boolean TableExists(String TableName) {
         try {
             Map<String, Object> Result = QueryOne(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name=?", TableName
+                "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+                TableName
             );
             return Result != null;
         } catch (Exception E) {
@@ -131,28 +151,34 @@ public class HellcatDB {
     }
 
     public void Migrate(Map<String, String> Migrations) {
-        Execute("CREATE TABLE IF NOT EXISTS _hellcat_migrations ("
-            + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + "name TEXT NOT NULL UNIQUE, "
-            + "appliedat TEXT NOT NULL)");
+        Execute(
+            "CREATE TABLE IF NOT EXISTS _hellcat_migrations (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "name TEXT NOT NULL UNIQUE, " +
+            "appliedat TEXT NOT NULL)"
+        );
 
         Set<String> Applied = new HashSet<>();
-        List<Map<String, Object>> Rows = Query("SELECT name FROM _hellcat_migrations ORDER BY id");
-        for (Map<String, Object> Row : Rows) Applied.add((String) Row.get("name"));
+        List<Map<String, Object>> Rows = Query("SELECT LOWER(name) AS name FROM _hellcat_migrations ORDER BY id");
+        for (Map<String, Object> Row : Rows) {
+            Object Val = Row.get("name");
+            if (Val != null) Applied.add(Val.toString().toLowerCase());
+        }
 
         for (Map.Entry<String, String> Entry : Migrations.entrySet()) {
             String Name = Entry.getKey();
-            String SQL  = Entry.getValue();
-            if (Applied.contains(Name)) continue;
+            String SQL = Entry.getValue();
+            if (Applied.contains(Name.toLowerCase())) continue;
             try {
                 for (String Stmt : SQL.split(";")) {
                     Stmt = Stmt.trim();
                     if (!Stmt.isEmpty()) ExecuteSafe(Stmt);
                 }
-                InsertRow("_hellcat_migrations", Map.of(
-                    "name",      Name,
-                    "appliedat", new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new java.util.Date())
-                ));
+                Execute(
+                    "INSERT OR IGNORE INTO _hellcat_migrations (name, appliedat) VALUES (?, ?)",
+                    Name,
+                    new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new java.util.Date())
+                );
             } catch (HellcatDBMigrationException E) {
                 throw E;
             } catch (Exception E) {
@@ -164,9 +190,9 @@ public class HellcatDB {
     private void ExecuteSafe(String SQL) {
         String Upper = SQL.trim().toUpperCase();
         boolean IsCreate = Upper.startsWith("CREATE TABLE") && !Upper.contains("IF NOT EXISTS");
-        boolean IsIndex  = Upper.startsWith("CREATE INDEX") && !Upper.contains("IF NOT EXISTS");
+        boolean IsIndex = Upper.startsWith("CREATE INDEX") && !Upper.contains("IF NOT EXISTS");
         if (IsCreate) SQL = SQL.trim().replaceFirst("(?i)CREATE TABLE", "CREATE TABLE IF NOT EXISTS");
-        if (IsIndex)  SQL = SQL.trim().replaceFirst("(?i)CREATE INDEX", "CREATE INDEX IF NOT EXISTS");
+        if (IsIndex) SQL = SQL.trim().replaceFirst("(?i)CREATE INDEX", "CREATE INDEX IF NOT EXISTS");
         boolean IsInsertIgnore = Upper.startsWith("INSERT OR IGNORE");
         if (!IsInsertIgnore && Upper.startsWith("INSERT ")) {
             SQL = SQL.trim().replaceFirst("(?i)^INSERT ", "INSERT OR IGNORE ");
@@ -185,8 +211,8 @@ public class HellcatDB {
     }
 
     static List<Map<String, Object>> MapResultSet(ResultSet Rs) throws SQLException {
-        ResultSetMetaData Meta  = Rs.getMetaData();
-        int               Cols  = Meta.getColumnCount();
+        ResultSetMetaData Meta = Rs.getMetaData();
+        int Cols = Meta.getColumnCount();
         List<Map<String, Object>> Result = new ArrayList<>();
         while (Rs.next()) {
             Map<String, Object> Row = new LinkedHashMap<>();
@@ -204,26 +230,29 @@ public class HellcatDB {
     }
 
     private static class HellcatDBPool {
-        private final String                   DSN;
-        private final BlockingQueue<Connection> Pool;
-        private final int                      MaxConns;
-        private int                            TotalCreated = 0;
-        private int                            TotalErrors  = 0;
-        private int                            InUse        = 0;
-        private final Object                   Lock         = new Object();
+
+        private final String DSN;
+        private final BlockingQueue<Connection> Idle;
+        private final int MaxConns;
+        private int TotalOpen = 0;
+        private int TotalCreated = 0;
+        private int TotalErrors = 0;
+        private final Object Lock = new Object();
 
         HellcatDBPool(String DSN, int MaxConns) {
-            this.DSN      = DSN;
+            this.DSN = DSN;
             this.MaxConns = MaxConns;
-            this.Pool     = new ArrayBlockingQueue<>(MaxConns);
+            this.Idle = new ArrayBlockingQueue<>(MaxConns);
 
-            try { Class.forName("org.sqlite.JDBC"); } catch (ClassNotFoundException E) {}
+            try {
+                Class.forName("org.sqlite.JDBC");
+            } catch (ClassNotFoundException E) {}
 
-            int Min = Math.min(1, MaxConns);
-            for (int I = 0; I < Min; I++) {
+            int MinIdle = Math.max(1, Math.min(2, MaxConns));
+            for (int I = 0; I < MinIdle; I++) {
                 try {
-                    Pool.add(CreateConnection());
-                    TotalCreated++;
+                    Idle.add(CreateConnection());
+                    TotalOpen++;
                 } catch (Exception E) {
                     throw new HellcatDBException("Failed to init DB pool: " + E.getMessage(), E);
                 }
@@ -231,38 +260,88 @@ public class HellcatDB {
         }
 
         Connection Acquire() {
-            try {
-                Connection Conn = Pool.poll(30, TimeUnit.SECONDS);
-                if (Conn == null) throw new HellcatDBException("DB pool exhausted after 30s");
-                if (!Conn.isValid(2)) {
-                    Conn = CreateConnection();
-                    TotalCreated++;
+            synchronized (Lock) {
+                Connection Idle_ = this.Idle.poll();
+                if (Idle_ != null) {
+                    try {
+                        if (!Idle_.isValid(1)) {
+                            Idle_.close();
+                            Idle_ = null;
+                        }
+                    } catch (SQLException E) {
+                        Idle_ = null;
+                    }
+                    if (Idle_ != null) return Idle_;
                 }
-                synchronized (Lock) { InUse++; }
+                if (TotalOpen < MaxConns) {
+                    Connection Conn = CreateConnection();
+                    TotalOpen++;
+                    return Conn;
+                }
+            }
+            try {
+                Connection Conn = Idle.poll(30, TimeUnit.SECONDS);
+                if (Conn == null) throw new HellcatDBException(
+                    "DB pool exhausted after 30s — all " + MaxConns + " connections in use"
+                );
+                try {
+                    if (!Conn.isValid(1)) {
+                        Conn.close();
+                        Conn = CreateConnection();
+                    }
+                } catch (SQLException E) {
+                    Conn = CreateConnection();
+                }
                 return Conn;
-            } catch (InterruptedException | SQLException E) {
-                throw new HellcatDBException("DB pool acquire failed: " + E.getMessage(), E);
+            } catch (InterruptedException E) {
+                throw new HellcatDBException("DB pool acquire interrupted: " + E.getMessage(), E);
             }
         }
 
         void Release(Connection Conn) {
-            synchronized (Lock) { InUse = Math.max(0, InUse - 1); }
-            if (!Pool.offer(Conn)) {
-                try { Conn.close(); } catch (SQLException E) {}
+            if (Conn == null) return;
+            try {
+                if (Conn.isClosed()) {
+                    synchronized (Lock) {
+                        TotalOpen = Math.max(0, TotalOpen - 1);
+                    }
+                    return;
+                }
+                if (!Conn.getAutoCommit()) Conn.setAutoCommit(true);
+            } catch (SQLException E) {
+                try {
+                    Conn.close();
+                } catch (SQLException Ignore) {}
+                synchronized (Lock) {
+                    TotalOpen = Math.max(0, TotalOpen - 1);
+                }
+                return;
+            }
+            if (!Idle.offer(Conn)) {
+                try {
+                    Conn.close();
+                } catch (SQLException E) {}
+                synchronized (Lock) {
+                    TotalOpen = Math.max(0, TotalOpen - 1);
+                }
             }
         }
 
         private Connection CreateConnection() {
             try {
                 String Url = DSN.startsWith("jdbc:") ? DSN : "jdbc:sqlite:" + DSN;
-                Connection Conn = DriverManager.getConnection(Url);
-                if (Conn instanceof org.sqlite.SQLiteConnection SC) {
+                Connection C = DriverManager.getConnection(Url);
+                if (C instanceof org.sqlite.SQLiteConnection SC) {
                     SC.getDatabase().exec("PRAGMA journal_mode=WAL", false);
                     SC.getDatabase().exec("PRAGMA foreign_keys=ON", false);
+                    SC.getDatabase().exec("PRAGMA busy_timeout=10000", false);
                 }
-                return Conn;
+                TotalCreated++;
+                return C;
             } catch (Exception E) {
-                synchronized (Lock) { TotalErrors++; }
+                synchronized (Lock) {
+                    TotalErrors++;
+                }
                 throw new HellcatDBException("DB connection failed: " + E.getMessage(), E);
             }
         }
@@ -270,11 +349,11 @@ public class HellcatDB {
         Map<String, Object> Stats() {
             synchronized (Lock) {
                 Map<String, Object> S = new LinkedHashMap<>();
-                S.put("PoolSize",     Pool.size());
-                S.put("InUse",        InUse);
-                S.put("MaxConns",     MaxConns);
+                S.put("Idle", Idle.size());
+                S.put("TotalOpen", TotalOpen);
+                S.put("MaxConns", MaxConns);
                 S.put("TotalCreated", TotalCreated);
-                S.put("TotalErrors",  TotalErrors);
+                S.put("TotalErrors", TotalErrors);
                 return S;
             }
         }

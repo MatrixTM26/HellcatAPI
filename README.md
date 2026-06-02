@@ -3,9 +3,10 @@
 A backend api framework build with java. Raw HTTP server, zero frameworks.
 
 ![HELLCAT API](https://img.shields.io/badge/Hellcat%20API-v2.0-000000?style=for-the-badge&logo=github&logoColor=ffffff&labelColor=000000&color=1be2ff)
-![AGPL](https://img.shields.io/badge/AGPL-v3-000000?style=for-the-badge&logo=gnu&logoColor=ffffff&labelColor=000000&color=1be2ff)
-![OpenJDK](https://img.shields.io/badge/OpenJDK-17+-000000?style=for-the-badge&logo=openjdk&logoColor=ffee1a&labelColor=000000&color=1be2ff)
-![MAVEN](https://img.shields.io/badge/Maven-3.9.0+-000000?style=for-the-badge&logo=apachemaven&logoColor=6d00fb&labelColor=000000&color=1be2ff)
+![AGPL](https://img.shields.io/badge/AGPL-v3-000000?style=for-the-badge&logo=gnu&logoColor=ffffff&labelColor=000000&color=03001a)
+![OpenJDK](https://img.shields.io/badge/OpenJDK-17-000000?style=for-the-badge&logo=openjdk&logoColor=ffee1a&labelColor=000000&color=03001a)
+![Maven](https://img.shields.io/badge/Maven-000000?style=for-the-badge&logo=apachemaven&logoColor=ee6a2a&labelColor=000000&color=03001a)
+![Networking](https://img.shields.io/badge/Networking-000000?style=for-the-badge&logo=cloudflare&logoColor=26ff7d&labelColor=000000&color=03001a)
 
 ## Project Structure
 

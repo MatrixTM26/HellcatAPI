@@ -273,7 +273,7 @@ App.ErrorHandler(500, (Req, Err) ->
 
 ## <img src="https://cdn.simpleicons.org/github/ff0000" width="18"> Credit
 
-- [@MatrixTM26](https://github.com/MatrixTM26)
+- **Author:** [@MatrixTM26](https://github.com/MatrixTM26)
 
 ## <img src="https://cdn.simpleicons.org/githubsponsors/ff0000" width="18"> Support Me
 
@@ -283,4 +283,4 @@ App.ErrorHandler(500, (Req, Err) ->
 
 ---
 
-<p align="center">&copy; 2023-2026 MatrixTM26</p>
+<p align="center">Copyright &copy;2023-2026 MatrixTM26 • All Rights Reserved</p>

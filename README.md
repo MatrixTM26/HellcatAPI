@@ -274,7 +274,7 @@ App.ErrorHandler(500, (Req, Err) ->
 
 ## <img src="https://cdn.simpleicons.org/readme/ff0000" width="18"> Documentation
 
-- **Open:** [Sites](https://matrixtm26.github.io/TOMCAT-C2-Framework)
+- **Open:** [Sites](https://matrixtm26.github.io/HellcatAPI)
 
 ## <img src="https://cdn.simpleicons.org/github/ff0000" width="18"> Credit
 

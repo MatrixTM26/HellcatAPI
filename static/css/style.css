@@ -29,7 +29,7 @@
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -128,19 +128,18 @@ nav {
 }
 
 @keyframes blink {
-
     0%,
     100% {
         opacity: 1;
     }
-    
+
     50% {
         opacity: 0.3;
     }
 }
 
 .version-badge {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 10px;
     font-weight: 600;
     background: var(--teal-dim);
@@ -187,11 +186,11 @@ nav {
     .sidebar {
         transform: translateX(0);
     }
-    
+
     .sidebar.collapsed {
         transform: translateX(-100%);
     }
-    
+
     .overlay {
         display: none !important;
     }
@@ -252,7 +251,7 @@ nav {
     color: var(--text-3);
     padding: 2px 7px;
     border-radius: 99px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
 }
 
 .sb-badge.green {
@@ -282,7 +281,7 @@ nav {
     .main {
         margin-left: var(--sidebar-w);
     }
-    
+
     .main.expanded {
         margin-left: 0;
     }
@@ -310,7 +309,7 @@ nav {
         opacity: 0;
         transform: translateY(6px);
     }
-    
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -354,7 +353,9 @@ nav {
     display: flex;
     align-items: center;
     gap: 13px;
-    transition: border-color 0.2s, transform 0.2s;
+    transition:
+        border-color 0.2s,
+        transform 0.2s;
 }
 
 .stat-card:hover {
@@ -444,7 +445,7 @@ nav {
 .panel-meta {
     font-size: 11px;
     color: var(--text-3);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
 }
 
 .endpoint-list {
@@ -463,7 +464,9 @@ nav {
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     background: var(--surface-2);
-    transition: border-color 0.15s, background 0.15s;
+    transition:
+        border-color 0.15s,
+        background 0.15s;
 }
 
 .endpoint:hover {
@@ -472,7 +475,7 @@ nav {
 }
 
 .method {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 9.5px;
     font-weight: 700;
     padding: 4px 0;
@@ -520,7 +523,7 @@ nav {
 }
 
 .ep-path {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 12.5px;
     color: var(--text);
     white-space: nowrap;
@@ -545,11 +548,14 @@ nav {
     border: none;
     padding: 7px 16px;
     border-radius: var(--radius-sm);
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
-    transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+    transition:
+        background 0.15s,
+        box-shadow 0.15s,
+        transform 0.1s;
     flex-shrink: 0;
     white-space: nowrap;
 }
@@ -619,7 +625,7 @@ nav {
 pre#output {
     background: #080808;
     color: var(--text-3);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 12px;
     line-height: 1.75;
     padding: 16px;
@@ -658,7 +664,7 @@ pre#output.err {
 }
 
 .log-method {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 10px;
     font-weight: 700;
     width: 42px;
@@ -666,13 +672,13 @@ pre#output.err {
 }
 
 .log-path {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     color: var(--text);
     flex: 1;
 }
 
 .log-code {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 11px;
     font-weight: 600;
 }
@@ -749,7 +755,7 @@ pre#output.err {
 }
 
 .key-val {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 11px;
     color: var(--text-3);
     white-space: nowrap;
@@ -814,7 +820,7 @@ pre#output.err {
 }
 
 .toggle::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 16px;
     height: 16px;
@@ -822,7 +828,9 @@ pre#output.err {
     background: var(--text-2);
     top: 3px;
     left: 3px;
-    transition: transform 0.2s, background 0.2s;
+    transition:
+        transform 0.2s,
+        background 0.2s;
 }
 
 .toggle.on {
@@ -864,7 +872,7 @@ pre#output.err {
 }
 
 .server-card-val {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 14px;
     font-weight: 600;
     color: var(--teal-light);
@@ -947,7 +955,7 @@ pre#output.err {
     text-align: center;
     font-size: 9px;
     color: var(--text-3);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -971,7 +979,7 @@ pre#output.err {
     color: var(--text-2);
     width: 100px;
     flex-shrink: 0;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -993,7 +1001,7 @@ pre#output.err {
 .req-count {
     font-size: 11px;
     color: var(--text-3);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     width: 32px;
     text-align: right;
     flex-shrink: 0;
@@ -1032,7 +1040,7 @@ pre#output.err {
 }
 
 .data-table td.mono {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 11px;
 }
 
@@ -1042,7 +1050,7 @@ pre#output.err {
     border-radius: 99px;
     font-size: 10px;
     font-weight: 600;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
 }
 
 .role-admin {
@@ -1085,7 +1093,7 @@ pre#output.err {
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 10px 14px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 13px;
     color: var(--text);
     outline: none;
@@ -1113,7 +1121,7 @@ pre#output.err {
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 14px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 12px;
     line-height: 1.8;
     max-height: 220px;
@@ -1174,14 +1182,14 @@ pre#output.err {
 .footer-right {
     font-size: 11px;
     color: var(--text-3);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
 }
 
 @media (max-width: 560px) {
     .endpoint {
         grid-template-columns: 48px 1fr;
     }
-    
+
     .btn {
         grid-column: 1 / -1;
         width: 100%;
@@ -1194,7 +1202,7 @@ pre#output.err {
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 12px 14px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 11px;
     color: var(--teal-light);
     word-break: break-all;
@@ -1223,7 +1231,7 @@ pre#output.err {
 }
 
 .info-val {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 12px;
     color: var(--text);
     flex: 1;

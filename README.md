@@ -1,6 +1,6 @@
 # HellcatAPI
 
-A backend api framework build with java. Raw HTTP server, zero frameworks.
+A fast serve Raw HTTP server framework for backend developments, strongly typed & build with java.
 
 ![HELLCAT API](https://img.shields.io/badge/Hellcat%20API-v2.0-000000?style=for-the-badge&logo=github&logoColor=ffffff&labelColor=000000&color=1be2ff)
 ![AGPL](https://img.shields.io/badge/AGPL-v3-000000?style=for-the-badge&logo=gnu&logoColor=ffffff&labelColor=000000&color=03001a)
@@ -10,7 +10,7 @@ A backend api framework build with java. Raw HTTP server, zero frameworks.
 
 ## Project Structure
 
-```
+```txt
 HellcatAPI/
 ├── pom.xml
 ├── server.properties          ← server configuration (host, port, debug, dirs)

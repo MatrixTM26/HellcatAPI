@@ -21,12 +21,12 @@ Do you know what could be causing the problem or how to fix it?
 
 - OS: [e.g. Kali Rolling 2025.2]
 - Browser [e.g. Firefox 60.2]
-- Python version [e.g. 3.12]
+- OpenJDK version [e.g. 17]
 
 **Some Questions**
 
 - [ ] I am using the latest version of tools.
-- [ ] I installed the dependecies using `pip3` instead of `pip`
+- [ ] I installed the dependecies using `OpenJDK-21` instead of `OpenJDK-17`
 - [ ] I have read the documentation before submitting this issue.
 - [ ] I have checked the other issues to see if someone reported this before.
 

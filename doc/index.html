@@ -1,225 +1,193 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta
-            name="description"
-            content="HellcatAPI — Java Edition. A raw HTTP backend API framework built with Java 17. Zero frameworks, pure performance."
-        />
-        <meta property="og:title" content="HellcatAPI Docs" />
-        <meta
-            property="og:description"
-            content="Raw HTTP backend API framework built with Java 17. Zero dependencies, zero frameworks."
-        />
-        <meta name="theme-color" content="#0a0a0a" />
-        <title>HellcatAPI — Documentation</title>
-        <link rel="stylesheet" href="static/css/style.css" />
-    </head>
-    <body>
-        <div id="progress-bar"></div>
-        <div id="sidebar-overlay"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="HellcatAPI. A raw HTTP backend API framework built with Java 17. Zero frameworks, pure performance."
+    />
+    <meta property="og:title" content="HellcatAPI Docs" />
+    <meta
+      property="og:description"
+      content="Raw HTTP backend API framework built with Java 17. Zero dependencies, zero frameworks."
+    />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>HellcatAPI — Documentation</title>
+    <link rel="stylesheet" href="static/css/style.css" />
+  </head>
+  <body>
+    <div id="progress-bar"></div>
+    <div id="sidebar-overlay"></div>
 
-        <header id="top-bar">
-            <div class="logo">HELLCAT<span>API</span></div>
-            <nav>
-                <a href="#getting-started">Get Started</a>
-                <a href="#routes">Routes</a>
-                <a href="#middleware">Middleware</a>
-                <a href="#database">Database</a>
-                <a href="#reference">Reference</a>
-            </nav>
-            <a
-                href="https://github.com/MatrixTM26/HellcatAPI"
-                class="github-link"
-                target="_blank"
-                rel="noopener"
-            >
-                <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                >
-                    <path
-                        d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
-                    />
-                </svg>
-                GitHub
-            </a>
-            <button id="hamburger" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
+    <header id="top-bar">
+      <div class="logo">HELLCAT<span>API</span></div>
+      <nav>
+        <a href="#getting-started">Get Started</a>
+        <a href="#routes">Routes</a>
+        <a href="#middleware">Middleware</a>
+        <a href="#database">Database</a>
+        <a href="#reference">Reference</a>
+      </nav>
+      <a
+        href="https://github.com/MatrixTM26/HellcatAPI"
+        class="github-link"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+          />
+        </svg>
+        GitHub
+      </a>
+      <button id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <div id="layout">
+      <aside id="sidebar">
+        <div class="sidebar-section">
+          <span class="sidebar-label">Overview</span>
+          <a href="#intro"><span class="dot"></span>Introduction</a>
+          <a href="#getting-started"
+            ><span class="dot"></span>Getting Started</a
+          >
+          <a href="#project-structure"
+            ><span class="dot"></span>Project Structure</a
+          >
+          <a href="#configuration"><span class="dot"></span>Configuration</a>
+        </div>
+        <div class="sidebar-section">
+          <span class="sidebar-label">Core API</span>
+          <a href="#routes"><span class="dot"></span>Routing</a>
+          <a href="#middleware"><span class="dot"></span>Middleware</a>
+          <a href="#request"><span class="dot"></span>Request Object</a>
+          <a href="#response"><span class="dot"></span>Response Helpers</a>
+        </div>
+        <div class="sidebar-section">
+          <span class="sidebar-label">Features</span>
+          <a href="#templates"><span class="dot"></span>Template Engine</a>
+          <a href="#database"><span class="dot"></span>Database</a>
+          <a href="#jwt"><span class="dot"></span>JWT &amp; Sessions</a>
+          <a href="#subrouters"><span class="dot"></span>Sub-Routers</a>
+          <a href="#error-handlers"><span class="dot"></span>Error Handlers</a>
+        </div>
+        <div class="sidebar-section">
+          <span class="sidebar-label">Reference</span>
+          <a href="#reference"><span class="dot"></span>Full Reference</a>
+          <a href="#dependencies"><span class="dot"></span>Dependencies</a>
+        </div>
+      </aside>
+
+      <main id="main">
+        <div id="content">
+          <div id="toc-mobile">
+            <button class="toc-toggle">
+              On this page <span class="toc-arrow">▼</span>
             </button>
-        </header>
+            <div class="toc-body">
+              <a href="#intro">Introduction</a>
+              <a href="#getting-started">Getting Started</a>
+              <a href="#project-structure">Project Structure</a>
+              <a href="#configuration">Configuration</a>
+              <a href="#routes">Routing</a>
+              <a href="#middleware">Middleware</a>
+              <a href="#request">Request Object</a>
+              <a href="#response">Response Helpers</a>
+              <a href="#templates">Template Engine</a>
+              <a href="#database">Database</a>
+              <a href="#jwt">JWT &amp; Sessions</a>
+              <a href="#subrouters">Sub-Routers</a>
+              <a href="#error-handlers">Error Handlers</a>
+              <a href="#reference">Full Reference</a>
+              <a href="#dependencies">Dependencies</a>
+            </div>
+          </div>
 
-        <div id="layout">
-            <aside id="sidebar">
-                <div class="sidebar-section">
-                    <span class="sidebar-label">Overview</span>
-                    <a href="#intro"><span class="dot"></span>Introduction</a>
-                    <a href="#getting-started"
-                        ><span class="dot"></span>Getting Started</a
-                    >
-                    <a href="#project-structure"
-                        ><span class="dot"></span>Project Structure</a
-                    >
-                    <a href="#configuration"
-                        ><span class="dot"></span>Configuration</a
-                    >
-                </div>
-                <div class="sidebar-section">
-                    <span class="sidebar-label">Core API</span>
-                    <a href="#routes"><span class="dot"></span>Routing</a>
-                    <a href="#middleware"
-                        ><span class="dot"></span>Middleware</a
-                    >
-                    <a href="#request"
-                        ><span class="dot"></span>Request Object</a
-                    >
-                    <a href="#response"
-                        ><span class="dot"></span>Response Helpers</a
-                    >
-                </div>
-                <div class="sidebar-section">
-                    <span class="sidebar-label">Features</span>
-                    <a href="#templates"
-                        ><span class="dot"></span>Template Engine</a
-                    >
-                    <a href="#database"><span class="dot"></span>Database</a>
-                    <a href="#jwt"
-                        ><span class="dot"></span>JWT &amp; Sessions</a
-                    >
-                    <a href="#subrouters"
-                        ><span class="dot"></span>Sub-Routers</a
-                    >
-                    <a href="#error-handlers"
-                        ><span class="dot"></span>Error Handlers</a
-                    >
-                </div>
-                <div class="sidebar-section">
-                    <span class="sidebar-label">Reference</span>
-                    <a href="#reference"
-                        ><span class="dot"></span>Full Reference</a
-                    >
-                    <a href="#dependencies"
-                        ><span class="dot"></span>Dependencies</a
-                    >
-                </div>
-            </aside>
+          <section id="intro">
+            <div class="hero">
+              <div class="hero-tag">Backend Framework</div>
+              <h1>Hellcat<em>API</em></h1>
+              <p>
+                A backend api framework build with java 17. Raw HTTP server —
+                zero frameworks, zero abstraction layers. You write routes,
+                HellcatAPI handles everything else.
+              </p>
+              <div class="hero-badges">
+                <span class="badge blue">Java 17+</span>
+                <span class="badge blue">Maven</span>
+                <span class="badge green">AGPL-3.0</span>
+                <span class="badge">No Frameworks</span>
+                <span class="badge">SQLite / JDBC</span>
+              </div>
+              <div class="hero-actions">
+                <a href="#getting-started" class="btn btn-primary"
+                  >Get Started →</a
+                >
+                <a
+                  href="https://github.com/MatrixTM26/HellcatAPI"
+                  class="btn btn-outline"
+                  target="_blank"
+                  rel="noopener"
+                  >View on GitHub</a
+                >
+              </div>
+            </div>
+          </section>
 
-            <main id="main">
-                <div id="content">
-                    <div id="toc-mobile">
-                        <button class="toc-toggle">
-                            On this page <span class="toc-arrow">▼</span>
-                        </button>
-                        <div class="toc-body">
-                            <a href="#intro">Introduction</a>
-                            <a href="#getting-started">Getting Started</a>
-                            <a href="#project-structure">Project Structure</a>
-                            <a href="#configuration">Configuration</a>
-                            <a href="#routes">Routing</a>
-                            <a href="#middleware">Middleware</a>
-                            <a href="#request">Request Object</a>
-                            <a href="#response">Response Helpers</a>
-                            <a href="#templates">Template Engine</a>
-                            <a href="#database">Database</a>
-                            <a href="#jwt">JWT &amp; Sessions</a>
-                            <a href="#subrouters">Sub-Routers</a>
-                            <a href="#error-handlers">Error Handlers</a>
-                            <a href="#reference">Full Reference</a>
-                            <a href="#dependencies">Dependencies</a>
-                        </div>
-                    </div>
+          <section id="getting-started" class="section">
+            <h2>Getting Started</h2>
 
-                    <section id="intro">
-                        <div class="hero">
-                            <div class="hero-tag">Backend Framework</div>
-                            <h1>Hellcat<em>API</em></h1>
-                            <p>
-                                A backend api framework build with java 17. Raw
-                                HTTP server — zero frameworks, zero abstraction
-                                layers. You write routes, HellcatAPI handles
-                                everything else.
-                            </p>
-                            <div class="hero-badges">
-                                <span class="badge blue">Java 17+</span>
-                                <span class="badge blue">Maven</span>
-                                <span class="badge green">AGPL-3.0</span>
-                                <span class="badge">No Frameworks</span>
-                                <span class="badge">SQLite / JDBC</span>
-                            </div>
-                            <div class="hero-actions">
-                                <a
-                                    href="#getting-started"
-                                    class="btn btn-primary"
-                                    >Get Started →</a
-                                >
-                                <a
-                                    href="https://github.com/MatrixTM26/HellcatAPI"
-                                    class="btn btn-outline"
-                                    target="_blank"
-                                    rel="noopener"
-                                    >View on GitHub</a
-                                >
-                            </div>
-                        </div>
-                    </section>
+            <p>
+              HellcatAPI requires Java 17 or higher and Maven 3.6+. Clone the
+              repository, configure your server, and run.
+            </p>
 
-                    <section id="getting-started" class="section">
-                        <h2>Getting Started</h2>
+            <h3>Requirements</h3>
+            <div class="section-grid">
+              <div class="grid-card">
+                <h4>Runtime</h4>
+                <p>
+                  Java 17 or higher (LTS recommended). OpenJDK or any compatible
+                  JVM.
+                </p>
+              </div>
+              <div class="grid-card">
+                <h4>Build Tool</h4>
+                <p>
+                  Apache Maven 3.6 or higher. All dependencies are resolved via
+                  pom.xml.
+                </p>
+              </div>
+              <div class="grid-card">
+                <h4>Database</h4>
+                <p>
+                  SQLite is bundled by default. PostgreSQL or MySQL require a
+                  JDBC driver swap.
+                </p>
+              </div>
+              <div class="grid-card">
+                <h4>OS</h4>
+                <p>Linux, macOS, or Windows. Works anywhere a JVM runs.</p>
+              </div>
+            </div>
 
-                        <p>
-                            HellcatAPI requires Java 17 or higher and Maven
-                            3.6+. Clone the repository, configure your server,
-                            and run.
-                        </p>
-
-                        <h3>Requirements</h3>
-                        <div class="section-grid">
-                            <div class="grid-card">
-                                <h4>Runtime</h4>
-                                <p>
-                                    Java 17 or higher (LTS recommended). OpenJDK
-                                    or any compatible JVM.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>Build Tool</h4>
-                                <p>
-                                    Apache Maven 3.6 or higher. All dependencies
-                                    are resolved via pom.xml.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>Database</h4>
-                                <p>
-                                    SQLite is bundled by default. PostgreSQL or
-                                    MySQL require a JDBC driver swap.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>OS</h4>
-                                <p>
-                                    Linux, macOS, or Windows. Works anywhere a
-                                    JVM runs.
-                                </p>
-                            </div>
-                        </div>
-
-                        <h3>Build &amp; Run</h3>
-                        <pre><code>git clone https://github.com/MatrixTM26/HellcatAPI.git
+            <h3>Build &amp; Run</h3>
+            <pre><code>git clone https://github.com/MatrixTM26/HellcatAPI.git
 cd HellcatAPI
 
 mvn clean package -q
 java -jar HellcatAPI.jar</code></pre>
 
-                        <h3>Minimal Application</h3>
-                        <p>
-                            Everything starts from <code>HellcatApp</code>. Pass
-                            your secret key as the first argument.
-                        </p>
-                        <pre><code><span class="token-type">HellcatApp</span> App = <span class="token-keyword">new</span> <span class="token-type">HellcatApp</span>(<span class="token-string">"your-secret-key"</span>);
+            <h3>Minimal Application</h3>
+            <p>
+              Everything starts from <code>HellcatApp</code>. Pass your secret
+              key as the first argument.
+            </p>
+            <pre><code><span class="token-type">HellcatApp</span> App = <span class="token-keyword">new</span> <span class="token-type">HellcatApp</span>(<span class="token-string">"your-secret-key"</span>);
 
 App.<span class="token-method">Get</span>(<span class="token-string">"/hello"</span>, Req ->
     App.<span class="token-method">Json</span>(Map.of(<span class="token-string">"message"</span>, <span class="token-string">"Hello World"</span>))
@@ -227,168 +195,143 @@ App.<span class="token-method">Get</span>(<span class="token-string">"/hello"</s
 
 App.<span class="token-method">Run</span>();</code></pre>
 
-                        <div class="callout">
-                            <strong>Default port:</strong> The server listens on
-                            <code>0.0.0.0:9926</code> unless overridden in
-                            <code>server.properties</code>.
-                        </div>
-                    </section>
+            <div class="callout">
+              <strong>Default port:</strong> The server listens on
+              <code>0.0.0.0:9926</code> unless overridden in
+              <code>server.properties</code>.
+            </div>
+          </section>
 
-                    <section id="project-structure" class="section">
-                        <h2>Project Structure</h2>
-                        <p>
-                            All core logic lives under
-                            <code>src/main/java/hellcat/core/</code>. The entry
-                            point is <code>TestApi.java</code>.
-                        </p>
+          <section id="project-structure" class="section">
+            <h2>Project Structure</h2>
+            <p>
+              All core logic lives under
+              <code>src/main/java/hellcat/core/</code>. The entry point is
+              <code>TestApi.java</code>.
+            </p>
 
-                        <div
-                            class="section-grid"
-                            style="grid-template-columns: 1fr 1fr 1fr"
-                        >
-                            <div class="grid-card">
-                                <h4>app/</h4>
-                                <p>
-                                    HellcatApp — main application class and
-                                    entry point wrapper.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>server/</h4>
-                                <p>
-                                    Raw HTTP server, connection handler, and
-                                    server logger.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>router/</h4>
-                                <p>
-                                    Route registration, matching, and path
-                                    parameter parsing.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>request/</h4>
-                                <p>
-                                    Request parser, request object, and uploaded
-                                    file model.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>response/</h4>
-                                <p>
-                                    Response builder and streaming response
-                                    support.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>middleware/</h4>
-                                <p>
-                                    Middleware interface and all built-in
-                                    middleware implementations.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>template/</h4>
-                                <p>Lightweight Jinja2-like template engine.</p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>db/</h4>
-                                <p>
-                                    Database connection pool, query builder, and
-                                    transaction context.
-                                </p>
-                            </div>
-                            <div class="grid-card">
-                                <h4>lib/</h4>
-                                <p>Logger utility and server config loader.</p>
-                            </div>
-                        </div>
-                    </section>
+            <div
+              class="section-grid"
+              style="grid-template-columns: 1fr 1fr 1fr"
+            >
+              <div class="grid-card">
+                <h4>app/</h4>
+                <p>
+                  HellcatApp — main application class and entry point wrapper.
+                </p>
+              </div>
+              <div class="grid-card">
+                <h4>server/</h4>
+                <p>Raw HTTP server, connection handler, and server logger.</p>
+              </div>
+              <div class="grid-card">
+                <h4>router/</h4>
+                <p>Route registration, matching, and path parameter parsing.</p>
+              </div>
+              <div class="grid-card">
+                <h4>request/</h4>
+                <p>Request parser, request object, and uploaded file model.</p>
+              </div>
+              <div class="grid-card">
+                <h4>response/</h4>
+                <p>Response builder and streaming response support.</p>
+              </div>
+              <div class="grid-card">
+                <h4>middleware/</h4>
+                <p>
+                  Middleware interface and all built-in middleware
+                  implementations.
+                </p>
+              </div>
+              <div class="grid-card">
+                <h4>template/</h4>
+                <p>Lightweight Jinja2-like template engine.</p>
+              </div>
+              <div class="grid-card">
+                <h4>db/</h4>
+                <p>
+                  Database connection pool, query builder, and transaction
+                  context.
+                </p>
+              </div>
+              <div class="grid-card">
+                <h4>lib/</h4>
+                <p>Logger utility and server config loader.</p>
+              </div>
+            </div>
+          </section>
 
-                    <section id="configuration" class="section">
-                        <h2>Configuration</h2>
-                        <p>
-                            Edit <code>server.properties</code> in the project
-                            root before running. All settings are optional —
-                            defaults are production-safe.
-                        </p>
-                        <pre><code>server.host=0.0.0.0
+          <section id="configuration" class="section">
+            <h2>Configuration</h2>
+            <p>
+              Edit <code>server.properties</code> in the project root before
+              running. All settings are optional — defaults are production-safe.
+            </p>
+            <pre><code>server.host=0.0.0.0
 server.port=9926
 server.debug=false
 server.template.dir=templates
 server.static.dir=static
 server.static.url=/static</code></pre>
 
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Key</th>
-                                        <th>Default</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>server.host</td>
-                                        <td>0.0.0.0</td>
-                                        <td>
-                                            Bind address for the HTTP server
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>server.port</td>
-                                        <td>9926</td>
-                                        <td>TCP port the server listens on</td>
-                                    </tr>
-                                    <tr>
-                                        <td>server.debug</td>
-                                        <td>false</td>
-                                        <td>
-                                            Enable verbose debug logging (<code
-                                                >true</code
-                                            >
-                                            / <code>false</code>)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>server.template.dir</td>
-                                        <td>templates</td>
-                                        <td>
-                                            Directory for HTML template files
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>server.static.dir</td>
-                                        <td>static</td>
-                                        <td>
-                                            Directory for static file assets
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>server.static.url</td>
-                                        <td>/static</td>
-                                        <td>
-                                            URL prefix for serving static files
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>server.host</td>
+                    <td>0.0.0.0</td>
+                    <td>Bind address for the HTTP server</td>
+                  </tr>
+                  <tr>
+                    <td>server.port</td>
+                    <td>9926</td>
+                    <td>TCP port the server listens on</td>
+                  </tr>
+                  <tr>
+                    <td>server.debug</td>
+                    <td>false</td>
+                    <td>
+                      Enable verbose debug logging (<code>true</code> /
+                      <code>false</code>)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>server.template.dir</td>
+                    <td>templates</td>
+                    <td>Directory for HTML template files</td>
+                  </tr>
+                  <tr>
+                    <td>server.static.dir</td>
+                    <td>static</td>
+                    <td>Directory for static file assets</td>
+                  </tr>
+                  <tr>
+                    <td>server.static.url</td>
+                    <td>/static</td>
+                    <td>URL prefix for serving static files</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
 
-                    <section id="routes" class="section">
-                        <h2>Routing</h2>
-                        <p>
-                            Routes are registered on the
-                            <code>HellcatApp</code> instance. Handlers receive a
-                            <code>HellcatRequest</code> and must return a
-                            response object.
-                        </p>
+          <section id="routes" class="section">
+            <h2>Routing</h2>
+            <p>
+              Routes are registered on the
+              <code>HellcatApp</code> instance. Handlers receive a
+              <code>HellcatRequest</code> and must return a response object.
+            </p>
 
-                        <h3>HTTP Method Shortcuts</h3>
-                        <pre><code>App.<span class="token-method">Get</span>(<span class="token-string">"/hello"</span>, Req ->
+            <h3>HTTP Method Shortcuts</h3>
+            <pre><code>App.<span class="token-method">Get</span>(<span class="token-string">"/hello"</span>, Req ->
     App.<span class="token-method">Json</span>(Map.of(<span class="token-string">"Message"</span>, <span class="token-string">"Hello World"</span>))
 );
 
@@ -401,13 +344,13 @@ App.<span class="token-method">Put</span>(<span class="token-string">"/item"</sp
 App.<span class="token-method">Delete</span>(<span class="token-string">"/item"</span>, Req -> App.<span class="token-method">Json</span>(Map.of(<span class="token-string">"deleted"</span>, <span class="token-keyword">true</span>)));
 App.<span class="token-method">Patch</span>(<span class="token-string">"/item"</span>, Req -> App.<span class="token-method">Json</span>(Map.of(<span class="token-string">"patched"</span>, <span class="token-keyword">true</span>)));</code></pre>
 
-                        <h3>Path Parameters</h3>
-                        <p>
-                            Use <code>&lt;type:Name&gt;</code> syntax. Supported
-                            types: <code>int</code>, <code>str</code>,
-                            <code>float</code>, <code>path</code>.
-                        </p>
-                        <pre><code>App.<span class="token-method">Get</span>(<span class="token-string">"/users/&lt;int:Id&gt;"</span>, Req -> {
+            <h3>Path Parameters</h3>
+            <p>
+              Use <code>&lt;type:Name&gt;</code> syntax. Supported types:
+              <code>int</code>, <code>str</code>, <code>float</code>,
+              <code>path</code>.
+            </p>
+            <pre><code>App.<span class="token-method">Get</span>(<span class="token-string">"/users/&lt;int:Id&gt;"</span>, Req -> {
     <span class="token-keyword">int</span> Id = <span class="token-type">Integer</span>.parseInt(Req.PathParams.get(<span class="token-string">"Id"</span>));
     <span class="token-keyword">return</span> App.<span class="token-method">Json</span>(Map.of(<span class="token-string">"Id"</span>, Id));
 });
@@ -417,22 +360,21 @@ App.<span class="token-method">Get</span>(<span class="token-string">"/files/&lt
     <span class="token-keyword">return</span> App.<span class="token-method">Text</span>(FilePath, 200);
 });</code></pre>
 
-                        <h3>Multi-Method Route</h3>
-                        <pre><code>App.<span class="token-method">Route</span>(<span class="token-string">"/multi"</span>, List.of(<span class="token-string">"GET"</span>, <span class="token-string">"POST"</span>), Req ->
+            <h3>Multi-Method Route</h3>
+            <pre><code>App.<span class="token-method">Route</span>(<span class="token-string">"/multi"</span>, List.of(<span class="token-string">"GET"</span>, <span class="token-string">"POST"</span>), Req ->
     App.<span class="token-method">Json</span>(Map.of(<span class="token-string">"Method"</span>, Req.Method))
 );</code></pre>
-                    </section>
+          </section>
 
-                    <section id="middleware" class="section">
-                        <h2>Middleware</h2>
-                        <p>
-                            Middleware intercepts every request before it
-                            reaches the route handler. Use built-in helpers or
-                            provide a custom lambda.
-                        </p>
+          <section id="middleware" class="section">
+            <h2>Middleware</h2>
+            <p>
+              Middleware intercepts every request before it reaches the route
+              handler. Use built-in helpers or provide a custom lambda.
+            </p>
 
-                        <h3>Built-in Middleware</h3>
-                        <pre><code><span class="token-comment">// CORS — allow origins, credentials flag</span>
+            <h3>Built-in Middleware</h3>
+            <pre><code><span class="token-comment">// CORS — allow origins, credentials flag</span>
 App.<span class="token-method">UseCors</span>(List.of(<span class="token-string">"*"</span>), <span class="token-keyword">false</span>);
 
 <span class="token-comment">// Rate limiting — 100 requests per 60 seconds</span>
@@ -447,191 +389,166 @@ App.<span class="token-method">UseGzip</span>(1024);
 <span class="token-comment">// Reject bodies larger than 10 MB</span>
 App.<span class="token-method">UseBodySizeLimit</span>(10 * 1024 * 1024);</code></pre>
 
-                        <h3>Custom Middleware (Global)</h3>
-                        <pre><code>App.<span class="token-method">UseMiddleware</span>((Req, Next) -> {
+            <h3>Custom Middleware (Global)</h3>
+            <pre><code>App.<span class="token-method">UseMiddleware</span>((Req, Next) -> {
     <span class="token-keyword">long</span> Start  = System.currentTimeMillis();
     <span class="token-type">Object</span> Resp = Next.apply(Req);
     System.out.println(<span class="token-string">"Duration: "</span> + (System.currentTimeMillis() - Start) + <span class="token-string">"ms"</span>);
     <span class="token-keyword">return</span> Resp;
 });</code></pre>
 
-                        <h3>Route-Level Middleware</h3>
-                        <pre><code>App.<span class="token-method">Post</span>(<span class="token-string">"/secure"</span>, Handler, List.of(RequireAuthMiddleware));</code></pre>
+            <h3>Route-Level Middleware</h3>
+            <pre><code>App.<span class="token-method">Post</span>(<span class="token-string">"/secure"</span>, Handler, List.of(RequireAuthMiddleware));</code></pre>
 
-                        <div class="callout">
-                            Middleware is executed in the order it is
-                            registered. Route-level middleware runs after all
-                            global middleware.
-                        </div>
-                    </section>
+            <div class="callout">
+              Middleware is executed in the order it is registered. Route-level
+              middleware runs after all global middleware.
+            </div>
+          </section>
 
-                    <section id="request" class="section">
-                        <h2>Request Object</h2>
-                        <p>
-                            Every route handler receives a
-                            <code>HellcatRequest</code> instance. It contains
-                            all parsed request data.
-                        </p>
+          <section id="request" class="section">
+            <h2>Request Object</h2>
+            <p>
+              Every route handler receives a
+              <code>HellcatRequest</code> instance. It contains all parsed
+              request data.
+            </p>
 
-                        <h3>Fields</h3>
-                        <div class="method-list">
-                            <div class="method-item">
-                                <span class="method-name">Req.Method</span
-                                ><span class="method-desc"
-                                    >HTTP method string — "GET", "POST", "PUT",
-                                    etc.</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">Req.Path</span
-                                ><span class="method-desc"
-                                    >Request path — e.g. "/users/42"</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">Req.PathParams</span
-                                ><span class="method-desc"
-                                    >Map of path parameter names to their string
-                                    values</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">Req.QueryParams</span
-                                ><span class="method-desc"
-                                    >Map of query string parameters — e.g.
-                                    {"page": "1"}</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">Req.Headers</span
-                                ><span class="method-desc"
-                                    >All HTTP headers as a map with lowercase
-                                    keys</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">Req.Cookies</span
-                                ><span class="method-desc"
-                                    >Parsed cookie values as a String map</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">Req.Body</span
-                                ><span class="method-desc"
-                                    >Raw request body as a byte array</span
-                                >
-                            </div>
-                        </div>
+            <h3>Fields</h3>
+            <div class="method-list">
+              <div class="method-item">
+                <span class="method-name">Req.Method</span
+                ><span class="method-desc"
+                  >HTTP method string — "GET", "POST", "PUT", etc.</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">Req.Path</span
+                ><span class="method-desc"
+                  >Request path — e.g. "/users/42"</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">Req.PathParams</span
+                ><span class="method-desc"
+                  >Map of path parameter names to their string values</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">Req.QueryParams</span
+                ><span class="method-desc"
+                  >Map of query string parameters — e.g. {"page": "1"}</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">Req.Headers</span
+                ><span class="method-desc"
+                  >All HTTP headers as a map with lowercase keys</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">Req.Cookies</span
+                ><span class="method-desc"
+                  >Parsed cookie values as a String map</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">Req.Body</span
+                ><span class="method-desc"
+                  >Raw request body as a byte array</span
+                >
+              </div>
+            </div>
 
-                        <h3>Methods</h3>
-                        <pre><code>Req.<span class="token-method">GetJson</span>()                    <span class="token-comment">// parse body as JSON → Map&lt;String, Object&gt;</span>
+            <h3>Methods</h3>
+            <pre><code>Req.<span class="token-method">GetJson</span>()                    <span class="token-comment">// parse body as JSON → Map&lt;String, Object&gt;</span>
 Req.<span class="token-method">GetQuery</span>(<span class="token-string">"page"</span>, <span class="token-string">"1"</span>)        <span class="token-comment">// query param with default fallback</span>
 Req.<span class="token-method">GetHeader</span>(<span class="token-string">"Authorization"</span>)   <span class="token-comment">// get a specific request header</span>
 Req.<span class="token-method">GetRemoteIp</span>()                <span class="token-comment">// client IP address</span>
 Req.<span class="token-method">IsJson</span>()                     <span class="token-comment">// true if Content-Type is application/json</span>
 Req.<span class="token-method">IsForm</span>()                     <span class="token-comment">// true if Content-Type is application/x-www-form-urlencoded</span>
 Req.<span class="token-method">IsMultipart</span>()                <span class="token-comment">// true if Content-Type is multipart/form-data</span></code></pre>
-                    </section>
+          </section>
 
-                    <section id="response" class="section">
-                        <h2>Response Helpers</h2>
-                        <p>
-                            All response helpers are methods on the
-                            <code>HellcatApp</code> instance. Each returns a
-                            response object that the route handler must return.
-                        </p>
+          <section id="response" class="section">
+            <h2>Response Helpers</h2>
+            <p>
+              All response helpers are methods on the
+              <code>HellcatApp</code> instance. Each returns a response object
+              that the route handler must return.
+            </p>
 
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Method</th>
-                                        <th>Status</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>App.Json(data)</td>
-                                        <td>200</td>
-                                        <td>
-                                            JSON response from any object or Map
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.Json(data, 201)</td>
-                                        <td>custom</td>
-                                        <td>
-                                            JSON with explicit HTTP status code
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.Html(html)</td>
-                                        <td>200</td>
-                                        <td>Raw HTML string response</td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.Text(text, 200)</td>
-                                        <td>custom</td>
-                                        <td>Plain text response with status</td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.Redirect(path)</td>
-                                        <td>302</td>
-                                        <td>HTTP redirect to another path</td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.Redirect(path, 301)</td>
-                                        <td>custom</td>
-                                        <td>
-                                            Redirect with explicit status (301,
-                                            302, etc.)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.Error(msg, 404)</td>
-                                        <td>custom</td>
-                                        <td>
-                                            JSON error with message and status
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.Error(msg, 422, details)</td>
-                                        <td>custom</td>
-                                        <td>
-                                            JSON error with additional detail
-                                            map
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.File(path, name)</td>
-                                        <td>200</td>
-                                        <td>
-                                            Serve a file as a download
-                                            attachment
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.Stream(supplier, type)</td>
-                                        <td>200</td>
-                                        <td>
-                                            Streaming response (SSE, chunked
-                                            transfer)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>App.Render(template, ctx)</td>
-                                        <td>200</td>
-                                        <td>
-                                            Render a template with a context map
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>App.Json(data)</td>
+                    <td>200</td>
+                    <td>JSON response from any object or Map</td>
+                  </tr>
+                  <tr>
+                    <td>App.Json(data, 201)</td>
+                    <td>custom</td>
+                    <td>JSON with explicit HTTP status code</td>
+                  </tr>
+                  <tr>
+                    <td>App.Html(html)</td>
+                    <td>200</td>
+                    <td>Raw HTML string response</td>
+                  </tr>
+                  <tr>
+                    <td>App.Text(text, 200)</td>
+                    <td>custom</td>
+                    <td>Plain text response with status</td>
+                  </tr>
+                  <tr>
+                    <td>App.Redirect(path)</td>
+                    <td>302</td>
+                    <td>HTTP redirect to another path</td>
+                  </tr>
+                  <tr>
+                    <td>App.Redirect(path, 301)</td>
+                    <td>custom</td>
+                    <td>Redirect with explicit status (301, 302, etc.)</td>
+                  </tr>
+                  <tr>
+                    <td>App.Error(msg, 404)</td>
+                    <td>custom</td>
+                    <td>JSON error with message and status</td>
+                  </tr>
+                  <tr>
+                    <td>App.Error(msg, 422, details)</td>
+                    <td>custom</td>
+                    <td>JSON error with additional detail map</td>
+                  </tr>
+                  <tr>
+                    <td>App.File(path, name)</td>
+                    <td>200</td>
+                    <td>Serve a file as a download attachment</td>
+                  </tr>
+                  <tr>
+                    <td>App.Stream(supplier, type)</td>
+                    <td>200</td>
+                    <td>Streaming response (SSE, chunked transfer)</td>
+                  </tr>
+                  <tr>
+                    <td>App.Render(template, ctx)</td>
+                    <td>200</td>
+                    <td>Render a template with a context map</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-                        <h3>Usage Examples</h3>
-                        <pre><code>App.<span class="token-method">Json</span>(Map.of(<span class="token-string">"status"</span>, <span class="token-string">"ok"</span>))
+            <h3>Usage Examples</h3>
+            <pre><code>App.<span class="token-method">Json</span>(Map.of(<span class="token-string">"status"</span>, <span class="token-string">"ok"</span>))
 App.<span class="token-method">Json</span>(userList, 200)
 App.<span class="token-method">Html</span>(<span class="token-string">"&lt;h1&gt;Hello&lt;/h1&gt;"</span>)
 App.<span class="token-method">Text</span>(<span class="token-string">"plain text"</span>, 200)
@@ -642,97 +559,77 @@ App.<span class="token-method">Error</span>(<span class="token-string">"Validati
 App.<span class="token-method">File</span>(<span class="token-string">"report.pdf"</span>, <span class="token-string">"download.pdf"</span>)
 App.<span class="token-method">Stream</span>(() -> chunks, <span class="token-string">"text/event-stream"</span>)
 App.<span class="token-method">Render</span>(<span class="token-string">"index.html"</span>, Map.of(<span class="token-string">"title"</span>, <span class="token-string">"HellcatAPI"</span>))</code></pre>
-                    </section>
+          </section>
 
-                    <section id="templates" class="section">
-                        <h2>Template Engine</h2>
-                        <p>
-                            HellcatAPI ships with a lightweight Jinja2-like
-                            template engine. Templates are stored in the
-                            <code>templates/</code> directory and rendered with
-                            <code>App.Render()</code>.
-                        </p>
+          <section id="templates" class="section">
+            <h2>Template Engine</h2>
+            <p>
+              HellcatAPI ships with a lightweight Jinja2-like template engine.
+              Templates are stored in the
+              <code>templates/</code> directory and rendered with
+              <code>App.Render()</code>.
+            </p>
 
-                        <h3>Rendering a Template</h3>
-                        <pre><code>App.<span class="token-method">Get</span>(<span class="token-string">"/"</span>, Req ->
+            <h3>Rendering a Template</h3>
+            <pre><code>App.<span class="token-method">Get</span>(<span class="token-string">"/"</span>, Req ->
     App.<span class="token-method">Render</span>(<span class="token-string">"index.html"</span>, Map.of(
         <span class="token-string">"Title"</span>,   <span class="token-string">"HellcatAPI"</span>,
         <span class="token-string">"Message"</span>, <span class="token-string">"Server is running!"</span>
     ))
 );</code></pre>
 
-                        <h3>Supported Syntax</h3>
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Tag</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{{ variable }}</td>
-                                        <td>
-                                            Output a variable value
-                                            (HTML-escaped)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>{{ object.field }}</td>
-                                        <td>Output a nested object field</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{{ value | raw }}</td>
-                                        <td>
-                                            Output raw HTML without escaping
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {% if condition %} ... {% endif %}
-                                        </td>
-                                        <td>Conditional block</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {% for item in items %} ... {%
-                                            endfor %}
-                                        </td>
-                                        <td>Loop over a collection</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{% extends "base.html" %}</td>
-                                        <td>Extend a base template layout</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {% block content %} ... {% endblock
-                                            %}
-                                        </td>
-                                        <td>
-                                            Define or override a named block
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>{% include "partial.html" %}</td>
-                                        <td>
-                                            Include another template file inline
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>{# comment #}</td>
-                                        <td>
-                                            Template comment — not rendered in
-                                            output
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            <h3>Supported Syntax</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tag</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ variable }}</td>
+                    <td>Output a variable value (HTML-escaped)</td>
+                  </tr>
+                  <tr>
+                    <td>{{ object.field }}</td>
+                    <td>Output a nested object field</td>
+                  </tr>
+                  <tr>
+                    <td>{{ value | raw }}</td>
+                    <td>Output raw HTML without escaping</td>
+                  </tr>
+                  <tr>
+                    <td>{% if condition %} ... {% endif %}</td>
+                    <td>Conditional block</td>
+                  </tr>
+                  <tr>
+                    <td>{% for item in items %} ... {% endfor %}</td>
+                    <td>Loop over a collection</td>
+                  </tr>
+                  <tr>
+                    <td>{% extends "base.html" %}</td>
+                    <td>Extend a base template layout</td>
+                  </tr>
+                  <tr>
+                    <td>{% block content %} ... {% endblock %}</td>
+                    <td>Define or override a named block</td>
+                  </tr>
+                  <tr>
+                    <td>{% include "partial.html" %}</td>
+                    <td>Include another template file inline</td>
+                  </tr>
+                  <tr>
+                    <td>{# comment #}</td>
+                    <td>Template comment — not rendered in output</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-                        <h3>Example Template</h3>
-                        <pre><code>&lt;!-- templates/index.html --&gt;
+            <h3>Example Template</h3>
+            <pre><code>&lt;!-- templates/index.html --&gt;
 {% extends "base.html" %}
 
 {% block content %}
@@ -745,32 +642,31 @@ App.<span class="token-method">Render</span>(<span class="token-string">"index.h
     {% endfor %}
   {% endif %}
 {% endblock %}</code></pre>
-                    </section>
+          </section>
 
-                    <section id="database" class="section">
-                        <h2>Database</h2>
-                        <p>
-                            HellcatAPI bundles SQLite via
-                            <code>HellcatDB</code>. Swap to PostgreSQL or MySQL
-                            by replacing the JDBC driver in
-                            <code>pom.xml</code>.
-                        </p>
+          <section id="database" class="section">
+            <h2>Database</h2>
+            <p>
+              HellcatAPI bundles SQLite via
+              <code>HellcatDB</code>. Swap to PostgreSQL or MySQL by replacing
+              the JDBC driver in <code>pom.xml</code>.
+            </p>
 
-                        <h3>Initialization</h3>
-                        <pre><code><span class="token-type">Map</span>&lt;<span class="token-type">String</span>, <span class="token-type">String</span>&gt; Migrations = <span class="token-keyword">new</span> <span class="token-type">LinkedHashMap</span>&lt;&gt;();
+            <h3>Initialization</h3>
+            <pre><code><span class="token-type">Map</span>&lt;<span class="token-type">String</span>, <span class="token-type">String</span>&gt; Migrations = <span class="token-keyword">new</span> <span class="token-type">LinkedHashMap</span>&lt;&gt;();
 Migrations.put(<span class="token-string">"001_create_users"</span>,
     <span class="token-string">"CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, email TEXT)"</span>);
 
 <span class="token-type">HellcatDB</span> DB = <span class="token-keyword">new</span> <span class="token-type">HellcatDB</span>(<span class="token-string">"app.db"</span>, 10, Migrations);</code></pre>
 
-                        <div class="callout">
-                            Migrations run automatically once on startup. Use a
-                            <code>LinkedHashMap</code> to ensure execution
-                            order. Keys are unique migration identifiers.
-                        </div>
+            <div class="callout">
+              Migrations run automatically once on startup. Use a
+              <code>LinkedHashMap</code> to ensure execution order. Keys are
+              unique migration identifiers.
+            </div>
 
-                        <h3>Query Builder</h3>
-                        <pre><code><span class="token-comment">// Fetch all matching rows</span>
+            <h3>Query Builder</h3>
+            <pre><code><span class="token-comment">// Fetch all matching rows</span>
 DB.<span class="token-method">Table</span>(<span class="token-string">"users"</span>).<span class="token-method">WhereEq</span>(<span class="token-string">"role"</span>, <span class="token-string">"admin"</span>).<span class="token-method">OrderBy</span>(<span class="token-string">"id"</span>).<span class="token-method">All</span>();
 
 <span class="token-comment">// Fetch the first matching row</span>
@@ -782,8 +678,8 @@ DB.<span class="token-method">Table</span>(<span class="token-string">"users"</s
 <span class="token-comment">// LIKE search with pagination</span>
 DB.<span class="token-method">Table</span>(<span class="token-string">"users"</span>).<span class="token-method">WhereLike</span>(<span class="token-string">"name"</span>, <span class="token-string">"%Tom%"</span>).<span class="token-method">Paginate</span>(1, 20);</code></pre>
 
-                        <h3>Write Operations</h3>
-                        <pre><code><span class="token-comment">// Insert a row</span>
+            <h3>Write Operations</h3>
+            <pre><code><span class="token-comment">// Insert a row</span>
 DB.<span class="token-method">InsertRow</span>(<span class="token-string">"users"</span>, Map.of(
     <span class="token-string">"name"</span>, <span class="token-string">"Tom"</span>,
     <span class="token-string">"email"</span>, <span class="token-string">"tom@example.com"</span>
@@ -795,8 +691,8 @@ DB.<span class="token-method">Table</span>(<span class="token-string">"users"</s
 <span class="token-comment">// Delete matching rows</span>
 DB.<span class="token-method">Table</span>(<span class="token-string">"users"</span>).<span class="token-method">WhereEq</span>(<span class="token-string">"id"</span>, 1).<span class="token-method">Delete</span>();</code></pre>
 
-                        <h3>Transactions</h3>
-                        <pre><code><span class="token-keyword">try</span> (<span class="token-type">HellcatTransactionContext</span> Tx = DB.<span class="token-method">Transaction</span>()) {
+            <h3>Transactions</h3>
+            <pre><code><span class="token-keyword">try</span> (<span class="token-type">HellcatTransactionContext</span> Tx = DB.<span class="token-method">Transaction</span>()) {
     Tx.<span class="token-method">Execute</span>(
         <span class="token-string">"UPDATE products SET stock = stock - ? WHERE id = ?"</span>, 1, 5
     );
@@ -805,19 +701,18 @@ DB.<span class="token-method">Table</span>(<span class="token-string">"users"</s
     );
     Tx.<span class="token-method">Commit</span>();
 }</code></pre>
-                    </section>
+          </section>
 
-                    <section id="jwt" class="section">
-                        <h2>JWT &amp; Sessions</h2>
-                        <p>
-                            HellcatAPI includes built-in JWT
-                            signing/verification and a simple session system.
-                            The secret key is the one passed to
-                            <code>HellcatApp</code>.
-                        </p>
+          <section id="jwt" class="section">
+            <h2>JWT &amp; Sessions</h2>
+            <p>
+              HellcatAPI includes built-in JWT signing/verification and a simple
+              session system. The secret key is the one passed to
+              <code>HellcatApp</code>.
+            </p>
 
-                        <h3>JSON Web Tokens</h3>
-                        <pre><code><span class="token-comment">// Sign a token with a payload, expiry in seconds</span>
+            <h3>JSON Web Tokens</h3>
+            <pre><code><span class="token-comment">// Sign a token with a payload, expiry in seconds</span>
 <span class="token-type">String</span> Token = App.<span class="token-method">CreateJwt</span>(
     Map.of(<span class="token-string">"UserId"</span>, 1, <span class="token-string">"Role"</span>, <span class="token-string">"admin"</span>),
     3600
@@ -826,30 +721,29 @@ DB.<span class="token-method">Table</span>(<span class="token-string">"users"</s
 <span class="token-comment">// Verify and decode a token</span>
 <span class="token-type">Map</span>&lt;<span class="token-type">String</span>, <span class="token-type">Object</span>&gt; Payload = App.<span class="token-method">DecodeJwt</span>(Token);</code></pre>
 
-                        <h3>Sessions</h3>
-                        <pre><code><span class="token-comment">// Read session from request cookies</span>
+            <h3>Sessions</h3>
+            <pre><code><span class="token-comment">// Read session from request cookies</span>
 <span class="token-type">Map</span>&lt;<span class="token-type">String</span>, <span class="token-type">Object</span>&gt; Session = App.<span class="token-method">GetSession</span>(Req);
 
 <span class="token-comment">// Write session data into a response (null = use default expiry)</span>
 App.<span class="token-method">SaveSession</span>(Response, Map.of(<span class="token-string">"UserId"</span>, 1), <span class="token-keyword">null</span>);</code></pre>
 
-                        <div class="callout">
-                            Sessions are cookie-based. The session data is
-                            signed with your app secret key. Pass an expiry in
-                            seconds as the third argument to
-                            <code>SaveSession</code>, or <code>null</code> for a
-                            browser-session cookie.
-                        </div>
-                    </section>
+            <div class="callout">
+              Sessions are cookie-based. The session data is signed with your
+              app secret key. Pass an expiry in seconds as the third argument to
+              <code>SaveSession</code>, or <code>null</code> for a
+              browser-session cookie.
+            </div>
+          </section>
 
-                    <section id="subrouters" class="section">
-                        <h2>Sub-Routers</h2>
-                        <p>
-                            Group routes under a common prefix using
-                            <code>HellcatRouter</code>. Attach it to the main
-                            app with <code>App.Include()</code>.
-                        </p>
-                        <pre><code><span class="token-type">HellcatRouter</span> Api = <span class="token-keyword">new</span> <span class="token-type">HellcatRouter</span>(<span class="token-string">"/api/v1"</span>);
+          <section id="subrouters" class="section">
+            <h2>Sub-Routers</h2>
+            <p>
+              Group routes under a common prefix using
+              <code>HellcatRouter</code>. Attach it to the main app with
+              <code>App.Include()</code>.
+            </p>
+            <pre><code><span class="token-type">HellcatRouter</span> Api = <span class="token-keyword">new</span> <span class="token-type">HellcatRouter</span>(<span class="token-string">"/api/v1"</span>);
 
 Api.<span class="token-method">Get</span>(<span class="token-string">"/health"</span>, Req ->
     App.<span class="token-method">Json</span>(Map.of(<span class="token-string">"Status"</span>, <span class="token-string">"ok"</span>))
@@ -867,21 +761,19 @@ Api.<span class="token-method">Post</span>(<span class="token-string">"/users"</
 
 App.<span class="token-method">Include</span>(Api);</code></pre>
 
-                        <p>
-                            Routes registered on <code>Api</code> are resolved
-                            as <code>/api/v1/health</code>,
-                            <code>/api/v1/users</code>, etc.
-                        </p>
-                    </section>
+            <p>
+              Routes registered on <code>Api</code> are resolved as
+              <code>/api/v1/health</code>, <code>/api/v1/users</code>, etc.
+            </p>
+          </section>
 
-                    <section id="error-handlers" class="section">
-                        <h2>Error Handlers</h2>
-                        <p>
-                            Register custom handlers for HTTP error codes. The
-                            handler receives the original request and the error
-                            object.
-                        </p>
-                        <pre><code>App.<span class="token-method">ErrorHandler</span>(404, (Req, Err) ->
+          <section id="error-handlers" class="section">
+            <h2>Error Handlers</h2>
+            <p>
+              Register custom handlers for HTTP error codes. The handler
+              receives the original request and the error object.
+            </p>
+            <pre><code>App.<span class="token-method">ErrorHandler</span>(404, (Req, Err) ->
     App.<span class="token-method">Json</span>(Map.of(
         <span class="token-string">"Error"</span>,   <span class="token-keyword">true</span>,
         <span class="token-string">"Message"</span>, <span class="token-string">"Route not found"</span>,
@@ -902,246 +794,190 @@ App.<span class="token-method">ErrorHandler</span>(429, (Req, Err) ->
         <span class="token-string">"Message"</span>, <span class="token-string">"Rate limit exceeded"</span>
     ), 429)
 );</code></pre>
-                    </section>
+          </section>
 
-                    <section id="reference" class="section">
-                        <h2>Full Reference</h2>
+          <section id="reference" class="section">
+            <h2>Full Reference</h2>
 
-                        <h3>HellcatApp Methods</h3>
-                        <div class="method-list">
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.Get(path, handler)</span
-                                ><span class="method-desc"
-                                    >Register a GET route</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.Post(path, handler)</span
-                                ><span class="method-desc"
-                                    >Register a POST route</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.Put(path, handler)</span
-                                ><span class="method-desc"
-                                    >Register a PUT route</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.Delete(path, handler)</span
-                                ><span class="method-desc"
-                                    >Register a DELETE route</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.Patch(path, handler)</span
-                                ><span class="method-desc"
-                                    >Register a PATCH route</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.Route(path, methods, handler)</span
-                                ><span class="method-desc"
-                                    >Register a route for multiple methods</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.Include(router)</span
-                                ><span class="method-desc"
-                                    >Attach a HellcatRouter to the app</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.UseMiddleware(fn)</span
-                                ><span class="method-desc"
-                                    >Add a global middleware lambda</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.UseCors(origins, creds)</span
-                                ><span class="method-desc"
-                                    >Enable CORS middleware</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.UseRateLimit(max, window)</span
-                                ><span class="method-desc"
-                                    >Enable rate limiting middleware</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.UseSecurityHeaders()</span
-                                ><span class="method-desc"
-                                    >Add security HTTP headers to all
-                                    responses</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.UseGzip(minSize)</span
-                                ><span class="method-desc"
-                                    >Enable Gzip compression for responses above
-                                    threshold</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.UseBodySizeLimit(bytes)</span
-                                ><span class="method-desc"
-                                    >Reject requests with body larger than
-                                    limit</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.ErrorHandler(code, fn)</span
-                                ><span class="method-desc"
-                                    >Register a handler for a specific HTTP
-                                    status code</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.CreateJwt(payload, ttl)</span
-                                ><span class="method-desc"
-                                    >Sign and return a JWT string</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.DecodeJwt(token)</span
-                                ><span class="method-desc"
-                                    >Verify and decode a JWT string to a payload
-                                    map</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.GetSession(req)</span
-                                ><span class="method-desc"
-                                    >Read session data from the request
-                                    cookies</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >App.SaveSession(res, data, ttl)</span
-                                ><span class="method-desc"
-                                    >Write session data as a signed cookie</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">App.Run()</span
-                                ><span class="method-desc"
-                                    >Start the HTTP server (blocking call)</span
-                                >
-                            </div>
-                        </div>
+            <h3>HellcatApp Methods</h3>
+            <div class="method-list">
+              <div class="method-item">
+                <span class="method-name">App.Get(path, handler)</span
+                ><span class="method-desc">Register a GET route</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.Post(path, handler)</span
+                ><span class="method-desc">Register a POST route</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.Put(path, handler)</span
+                ><span class="method-desc">Register a PUT route</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.Delete(path, handler)</span
+                ><span class="method-desc">Register a DELETE route</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.Patch(path, handler)</span
+                ><span class="method-desc">Register a PATCH route</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name"
+                  >App.Route(path, methods, handler)</span
+                ><span class="method-desc"
+                  >Register a route for multiple methods</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.Include(router)</span
+                ><span class="method-desc"
+                  >Attach a HellcatRouter to the app</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.UseMiddleware(fn)</span
+                ><span class="method-desc">Add a global middleware lambda</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.UseCors(origins, creds)</span
+                ><span class="method-desc">Enable CORS middleware</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.UseRateLimit(max, window)</span
+                ><span class="method-desc"
+                  >Enable rate limiting middleware</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.UseSecurityHeaders()</span
+                ><span class="method-desc"
+                  >Add security HTTP headers to all responses</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.UseGzip(minSize)</span
+                ><span class="method-desc"
+                  >Enable Gzip compression for responses above threshold</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.UseBodySizeLimit(bytes)</span
+                ><span class="method-desc"
+                  >Reject requests with body larger than limit</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.ErrorHandler(code, fn)</span
+                ><span class="method-desc"
+                  >Register a handler for a specific HTTP status code</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.CreateJwt(payload, ttl)</span
+                ><span class="method-desc">Sign and return a JWT string</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.DecodeJwt(token)</span
+                ><span class="method-desc"
+                  >Verify and decode a JWT string to a payload map</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.GetSession(req)</span
+                ><span class="method-desc"
+                  >Read session data from the request cookies</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.SaveSession(res, data, ttl)</span
+                ><span class="method-desc"
+                  >Write session data as a signed cookie</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">App.Run()</span
+                ><span class="method-desc"
+                  >Start the HTTP server (blocking call)</span
+                >
+              </div>
+            </div>
 
-                        <h3>HellcatDB Methods</h3>
-                        <div class="method-list">
-                            <div class="method-item">
-                                <span class="method-name">DB.Table(name)</span
-                                ><span class="method-desc"
-                                    >Begin a query against a named table</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >.WhereEq(col, val)</span
-                                ><span class="method-desc"
-                                    >Add a WHERE col = val clause</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >.WhereLike(col, pat)</span
-                                ><span class="method-desc"
-                                    >Add a WHERE col LIKE pattern clause</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">.OrderBy(col)</span
-                                ><span class="method-desc"
-                                    >Add an ORDER BY clause</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">.All()</span
-                                ><span class="method-desc"
-                                    >Execute and return all matching rows as a
-                                    List of Maps</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">.First()</span
-                                ><span class="method-desc"
-                                    >Execute and return the first matching row
-                                    as a Map</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">.Count()</span
-                                ><span class="method-desc"
-                                    >Return the count of matching rows</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >.Paginate(page, size)</span
-                                ><span class="method-desc"
-                                    >Return a page of results with LIMIT /
-                                    OFFSET</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">.Update(data)</span
-                                ><span class="method-desc"
-                                    >Update matching rows with the provided
-                                    map</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">.Delete()</span
-                                ><span class="method-desc"
-                                    >Delete all matching rows</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name"
-                                    >DB.InsertRow(table, data)</span
-                                ><span class="method-desc"
-                                    >Insert a new row into a table</span
-                                >
-                            </div>
-                            <div class="method-item">
-                                <span class="method-name">DB.Transaction()</span
-                                ><span class="method-desc"
-                                    >Open a transactional context
-                                    (try-with-resources)</span
-                                >
-                            </div>
-                        </div>
-                    </section>
+            <h3>HellcatDB Methods</h3>
+            <div class="method-list">
+              <div class="method-item">
+                <span class="method-name">DB.Table(name)</span
+                ><span class="method-desc"
+                  >Begin a query against a named table</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">.WhereEq(col, val)</span
+                ><span class="method-desc">Add a WHERE col = val clause</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">.WhereLike(col, pat)</span
+                ><span class="method-desc"
+                  >Add a WHERE col LIKE pattern clause</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">.OrderBy(col)</span
+                ><span class="method-desc">Add an ORDER BY clause</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">.All()</span
+                ><span class="method-desc"
+                  >Execute and return all matching rows as a List of Maps</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">.First()</span
+                ><span class="method-desc"
+                  >Execute and return the first matching row as a Map</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">.Count()</span
+                ><span class="method-desc"
+                  >Return the count of matching rows</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">.Paginate(page, size)</span
+                ><span class="method-desc"
+                  >Return a page of results with LIMIT / OFFSET</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">.Update(data)</span
+                ><span class="method-desc"
+                  >Update matching rows with the provided map</span
+                >
+              </div>
+              <div class="method-item">
+                <span class="method-name">.Delete()</span
+                ><span class="method-desc">Delete all matching rows</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">DB.InsertRow(table, data)</span
+                ><span class="method-desc">Insert a new row into a table</span>
+              </div>
+              <div class="method-item">
+                <span class="method-name">DB.Transaction()</span
+                ><span class="method-desc"
+                  >Open a transactional context (try-with-resources)</span
+                >
+              </div>
+            </div>
+          </section>
 
-                    <section id="dependencies" class="section">
-                        <h2>Dependencies</h2>
-                        <p>
-                            HellcatAPI intentionally keeps its dependency count
-                            minimal. Add these to your <code>pom.xml</code>.
-                        </p>
-                        <pre><code>&lt;<span class="token-type">dependency</span>&gt;
+          <section id="dependencies" class="section">
+            <h2>Dependencies</h2>
+            <p>
+              HellcatAPI intentionally keeps its dependency count minimal. Add
+              these to your <code>pom.xml</code>.
+            </p>
+            <pre><code>&lt;<span class="token-type">dependency</span>&gt;
     &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
     &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
     &lt;version&gt;2.17.0&lt;/version&gt;
@@ -1153,40 +989,34 @@ App.<span class="token-method">ErrorHandler</span>(429, (Req, Err) ->
     &lt;version&gt;3.45.3.0&lt;/version&gt;
 &lt;/<span class="token-type">dependency</span>&gt;</code></pre>
 
-                        <div class="callout warn">
-                            <strong>PostgreSQL / MySQL:</strong> Replace the
-                            SQLite JDBC dependency with the appropriate driver.
-                            Update your connection string in
-                            <code>HellcatDB</code> accordingly. No other changes
-                            required.
-                        </div>
-                    </section>
-                </div>
-            </main>
+            <div class="callout warn">
+              <strong>PostgreSQL / MySQL:</strong> Replace the SQLite JDBC
+              dependency with the appropriate driver. Update your connection
+              string in <code>HellcatDB</code> accordingly. No other changes
+              required.
+            </div>
+          </section>
         </div>
+      </main>
+    </div>
 
-        <footer>
-            <div class="footer-left">
-                HELLCAT<span>API</span> — Java Edition
-            </div>
-            <div class="footer-right">
-                Built by
-                <a
-                    href="https://github.com/MatrixTM26"
-                    target="_blank"
-                    rel="noopener"
-                    >MatrixTM26</a
-                >
-                &nbsp;·&nbsp;
-                <a
-                    href="https://github.com/MatrixTM26/HellcatAPI/blob/main/LICENSE"
-                    target="_blank"
-                    rel="noopener"
-                    >AGPL-3.0</a
-                >
-            </div>
-        </footer>
+    <footer>
+      <div class="footer-left">HELLCAT<span>API</span> — Java Edition</div>
+      <div class="footer-right">
+        Built by
+        <a href="https://github.com/MatrixTM26" target="_blank" rel="noopener"
+          >MatrixTM26</a
+        >
+        &nbsp;·&nbsp;
+        <a
+          href="https://github.com/MatrixTM26/HellcatAPI/blob/main/LICENSE"
+          target="_blank"
+          rel="noopener"
+          >AGPL-3.0</a
+        >
+      </div>
+    </footer>
 
-        <script src="static/js/main.js"></script>
-    </body>
+    <script src="static/js/main.js"></script>
+  </body>
 </html>

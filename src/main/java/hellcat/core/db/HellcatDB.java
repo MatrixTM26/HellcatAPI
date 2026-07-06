@@ -114,10 +114,7 @@ public class HellcatDB {
 
     public boolean TableExists(String TableName) {
         try {
-            Map<String, Object> Result = QueryOne(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
-                TableName
-            );
+            Map<String, Object> Result = QueryOne("SELECT name FROM sqlite_master WHERE type='table' AND name=?", TableName);
             return Result != null;
         } catch (Exception E) {
             return false;
@@ -151,12 +148,7 @@ public class HellcatDB {
     }
 
     public void Migrate(Map<String, String> Migrations) {
-        Execute(
-            "CREATE TABLE IF NOT EXISTS _hellcat_migrations (" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "name TEXT NOT NULL UNIQUE, " +
-            "appliedat TEXT NOT NULL)"
-        );
+        Execute("CREATE TABLE IF NOT EXISTS _hellcat_migrations (" + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "name TEXT NOT NULL UNIQUE, " + "appliedat TEXT NOT NULL)");
 
         Set<String> Applied = new HashSet<>();
         List<Map<String, Object>> Rows = Query("SELECT LOWER(name) AS name FROM _hellcat_migrations ORDER BY id");
@@ -174,11 +166,7 @@ public class HellcatDB {
                     Stmt = Stmt.trim();
                     if (!Stmt.isEmpty()) ExecuteSafe(Stmt);
                 }
-                Execute(
-                    "INSERT OR IGNORE INTO _hellcat_migrations (name, appliedat) VALUES (?, ?)",
-                    Name,
-                    new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new java.util.Date())
-                );
+                Execute("INSERT OR IGNORE INTO _hellcat_migrations (name, appliedat) VALUES (?, ?)", Name, new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new java.util.Date()));
             } catch (HellcatDBMigrationException E) {
                 throw E;
             } catch (Exception E) {
@@ -281,9 +269,7 @@ public class HellcatDB {
             }
             try {
                 Connection Conn = Idle.poll(30, TimeUnit.SECONDS);
-                if (Conn == null) throw new HellcatDBException(
-                    "DB pool exhausted after 30s — all " + MaxConns + " connections in use"
-                );
+                if (Conn == null) throw new HellcatDBException("DB pool exhausted after 30s — all " + MaxConns + " connections in use");
                 try {
                     if (!Conn.isValid(1)) {
                         Conn.close();

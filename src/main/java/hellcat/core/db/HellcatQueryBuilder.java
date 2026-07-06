@@ -83,10 +83,7 @@ public class HellcatQueryBuilder {
     }
 
     private String BuildSQL() {
-        StringBuilder SQL = new StringBuilder("SELECT ")
-            .append(String.join(", ", SelectCols))
-            .append(" FROM ")
-            .append(TableName);
+        StringBuilder SQL = new StringBuilder("SELECT ").append(String.join(", ", SelectCols)).append(" FROM ").append(TableName);
 
         for (String J : JoinClauses) SQL.append(" ").append(J);
         if (!Conditions.isEmpty()) SQL.append(" WHERE ").append(String.join(" AND ", Conditions));
@@ -132,10 +129,7 @@ public class HellcatQueryBuilder {
             Values.add(E.getValue());
         }
         Values.addAll(Params);
-        StringBuilder SQL = new StringBuilder("UPDATE ")
-            .append(TableName)
-            .append(" SET ")
-            .append(String.join(", ", Sets));
+        StringBuilder SQL = new StringBuilder("UPDATE ").append(TableName).append(" SET ").append(String.join(", ", Sets));
         if (!Conditions.isEmpty()) SQL.append(" WHERE ").append(String.join(" AND ", Conditions));
         return DB.Execute(SQL.toString(), Values.toArray());
     }

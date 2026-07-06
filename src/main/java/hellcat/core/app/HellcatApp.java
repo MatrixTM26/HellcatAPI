@@ -218,25 +218,15 @@ public class HellcatApp {
 
     public HellcatResponse Render(String TemplateName, Map<String, Object> Ctx) {
         if (Templates == null) {
-            return HellcatResponse.Error(
-                "Template engine is not active. TemplateDir was not found at startup.",
-                500,
-                null
-            );
+            return HellcatResponse.Error("Template engine is not active. TemplateDir was not found at startup.", 500, null);
         }
         try {
             String HtmlContent = Templates.Render(TemplateName, Ctx != null ? Ctx : new HashMap<>());
             return HellcatResponse.Html(HtmlContent, 200);
         } catch (HellcatTemplateEngine.HellcatTemplateNotFoundException E) {
-            return HellcatResponse.Error(
-                "Template '" + TemplateName + "' not found in '" + ResolvedTemplateDir + "'.",
-                404,
-                null
-            );
+            return HellcatResponse.Error("Template '" + TemplateName + "' not found in '" + ResolvedTemplateDir + "'.", 404, null);
         } catch (HellcatTemplateEngine.HellcatTemplateException E) {
-            return Config.IsDebug()
-                ? HellcatResponse.Error("Template render error: " + E.getMessage(), 500, null)
-                : HellcatResponse.Error("Failed to render template.", 500, null);
+            return Config.IsDebug() ? HellcatResponse.Error("Template render error: " + E.getMessage(), 500, null) : HellcatResponse.Error("Failed to render template.", 500, null);
         }
     }
 

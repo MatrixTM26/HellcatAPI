@@ -116,31 +116,12 @@ public class TestApi {
         App.UseGzip(512);
         App.UseMiddleware(LogRequest);
 
-        App.ErrorHandler(404, (Req, Err) ->
-            App.Json(Map.of("Error", true, "Message", "Route not found", "Path", Req.Path), 404)
-        );
-        App.ErrorHandler(405, (Req, Err) ->
-            App.Json(Map.of("Error", true, "Message", "Method not allowed", "Method", Req.Method), 405)
-        );
+        App.ErrorHandler(404, (Req, Err) -> App.Json(Map.of("Error", true, "Message", "Route not found", "Path", Req.Path), 404));
+        App.ErrorHandler(405, (Req, Err) -> App.Json(Map.of("Error", true, "Message", "Method not allowed", "Method", Req.Method), 405));
 
-        App.Get("/", Req ->
-            App.Render(
-                "index.html",
-                Map.of(
-                    "Title",
-                    "HellcatAPI",
-                    "Message",
-                    "Server Running!",
-                    "Server",
-                    App.GetConfig().GetHost() + ":" + App.GetConfig().GetPort(),
-                    "Version",
-                    "1.0.0"
-                )
-            )
-        );
+        App.Get("/", Req -> App.Render("index.html", Map.of("Title", "HellcatAPI", "Message", "Server Running!", "Server", App.GetConfig().GetHost() + ":" + App.GetConfig().GetPort(), "Version", "1.0.0")));
 
-        App.Get("/ping", Req -> App.Json(Map.of("Pong", true, "Mode", "sync", "Ts", System.currentTimeMillis() / 1000))
-        );
+        App.Get("/ping", Req -> App.Json(Map.of("Pong", true, "Mode", "sync", "Ts", System.currentTimeMillis() / 1000)));
 
         App.Get("/status", Req -> {
             boolean DbOk = true;
@@ -151,25 +132,7 @@ public class TestApi {
                 DbOk = false;
             }
 
-            return App.Json(
-                Map.of(
-                    "Status",
-                    "healthy",
-                    "Version",
-                    "1.0.0",
-                    "Services",
-                    Map.of(
-                        "Database",
-                        Map.of("Ok", DbOk, "Records", Records),
-                        "Cache",
-                        Map.of("Ok", true, "Sessions", App.GetSessions().Count()),
-                        "System",
-                        Map.of("Ok", true, "Pid", ProcessHandle.current().pid())
-                    ),
-                    "Ts",
-                    System.currentTimeMillis() / 1000
-                )
-            );
+            return App.Json(Map.of("Status", "healthy", "Version", "1.0.0", "Services", Map.of("Database", Map.of("Ok", DbOk, "Records", Records), "Cache", Map.of("Ok", true, "Sessions", App.GetSessions().Count()), "System", Map.of("Ok", true, "Pid", ProcessHandle.current().pid())), "Ts", System.currentTimeMillis() / 1000));
         });
 
         App.Get("/routes", Req -> {
@@ -182,10 +145,7 @@ public class TestApi {
 
         App.Get("/logs", Req -> {
             int Limit = Math.max(1, Math.min(Integer.parseInt(Req.GetQuery("limit", "20")), 100));
-            List<Map<String, Object>> Slice = RequestLog.subList(
-                Math.max(0, RequestLog.size() - Limit),
-                RequestLog.size()
-            );
+            List<Map<String, Object>> Slice = RequestLog.subList(Math.max(0, RequestLog.size() - Limit), RequestLog.size());
             List<Map<String, Object>> Reversed = new ArrayList<>(Slice);
             Collections.reverse(Reversed);
             return App.Json(Map.of("Total", RequestLog.size(), "Limit", Limit, "Logs", Reversed));
@@ -203,9 +163,7 @@ public class TestApi {
             var Query = DB.Table("users").OrderBy("id");
             if (Req.GetQuery("role") != null) Query = Query.WhereEq("role", Req.GetQuery("role"));
             if (Req.GetQuery("search") != null) Query = Query.WhereLike("name", "%" + Req.GetQuery("search") + "%");
-            return App.Json(
-                Query.Paginate(Integer.parseInt(Req.GetQuery("page", "1")), Integer.parseInt(Req.GetQuery("per", "20")))
-            );
+            return App.Json(Query.Paginate(Integer.parseInt(Req.GetQuery("page", "1")), Integer.parseInt(Req.GetQuery("per", "20"))));
         });
 
         App.Get("/users/<int:UserId>", Req -> {
@@ -220,33 +178,14 @@ public class TestApi {
             Req -> {
                 Map<String, Object> Body = Req.GetJson();
                 if (Body == null || !Body.containsKey("Name") || !Body.containsKey("Email")) {
-                    return App.Error(
-                        "Fields 'Name' and 'Email' are required",
-                        400,
-                        Map.of("Required", List.of("Name", "Email"))
-                    );
+                    return App.Error("Fields 'Name' and 'Email' are required", 400, Map.of("Required", List.of("Name", "Email")));
                 }
                 String Email = (String) Body.get("Email");
                 if (DB.Table("users").WhereEq("email", Email).First() != null) {
                     return App.Error("Email '" + Email + "' already exists", 409);
                 }
-                long NewId = DB.InsertRow(
-                    "users",
-                    Map.of(
-                        "name",
-                        Body.get("Name"),
-                        "email",
-                        Email,
-                        "role",
-                        Body.getOrDefault("Role", "user"),
-                        "created",
-                        Now()
-                    )
-                );
-                return App.Json(
-                    Map.of("Message", "User created", "User", DB.Table("users").WhereEq("id", NewId).First()),
-                    201
-                );
+                long NewId = DB.InsertRow("users", Map.of("name", Body.get("Name"), "email", Email, "role", Body.getOrDefault("Role", "user"), "created", Now()));
+                return App.Json(Map.of("Message", "User created", "User", DB.Table("users").WhereEq("id", NewId).First()), 201);
             },
             List.of(RequireJson)
         );
@@ -264,9 +203,7 @@ public class TestApi {
                 if (Body.get("Email") != null) Updates.put("email", Body.get("Email"));
                 if (Body.get("Role") != null) Updates.put("role", Body.get("Role"));
                 if (!Updates.isEmpty()) DB.Table("users").WhereEq("id", UserId).Update(Updates);
-                return App.Json(
-                    Map.of("Message", "User updated", "User", DB.Table("users").WhereEq("id", UserId).First())
-                );
+                return App.Json(Map.of("Message", "User updated", "User", DB.Table("users").WhereEq("id", UserId).First()));
             },
             List.of(RequireJson)
         );
@@ -282,17 +219,9 @@ public class TestApi {
 
         App.Get("/products", Req -> {
             var Query = DB.Table("products").OrderBy("id");
-            if (Req.GetQuery("min_price") != null) Query = Query.Where(
-                "price >= ?",
-                Double.parseDouble(Req.GetQuery("min_price"))
-            );
-            if (Req.GetQuery("max_price") != null) Query = Query.Where(
-                "price <= ?",
-                Double.parseDouble(Req.GetQuery("max_price"))
-            );
-            return App.Json(
-                Query.Paginate(Integer.parseInt(Req.GetQuery("page", "1")), Integer.parseInt(Req.GetQuery("per", "20")))
-            );
+            if (Req.GetQuery("min_price") != null) Query = Query.Where("price >= ?", Double.parseDouble(Req.GetQuery("min_price")));
+            if (Req.GetQuery("max_price") != null) Query = Query.Where("price <= ?", Double.parseDouble(Req.GetQuery("max_price")));
+            return App.Json(Query.Paginate(Integer.parseInt(Req.GetQuery("page", "1")), Integer.parseInt(Req.GetQuery("per", "20"))));
         });
 
         App.Get("/products/<int:ProductId>", Req -> {
@@ -310,10 +239,7 @@ public class TestApi {
                 Object ProductId = Body.get("ProductId");
                 int Qty = Body.get("Quantity") instanceof Number N ? N.intValue() : 1;
 
-                if (UserId == null || ProductId == null) return App.Error(
-                    "Fields 'UserId' and 'ProductId' are required",
-                    400
-                );
+                if (UserId == null || ProductId == null) return App.Error("Fields 'UserId' and 'ProductId' are required", 400);
 
                 Map<String, Object> User = DB.Table("users").WhereEq("id", UserId).First();
                 Map<String, Object> Product = DB.Table("products").WhereEq("id", ProductId).First();
@@ -329,19 +255,9 @@ public class TestApi {
                 try (HellcatTransactionContext Tx = DB.Transaction()) {
                     Tx.Execute("UPDATE products SET stock = stock - ? WHERE id = ?", Qty, ProductId);
                     double Total = ((Number) Product.get("price")).doubleValue() * Qty;
-                    long OrderId = Tx.Insert(
-                        "INSERT INTO orders (user_id, product_id, quantity, total, status, created) VALUES (?, ?, ?, ?, 'confirmed', ?)",
-                        UserId,
-                        ProductId,
-                        Qty,
-                        Math.round(Total * 100.0) / 100.0,
-                        Now()
-                    );
+                    long OrderId = Tx.Insert("INSERT INTO orders (user_id, product_id, quantity, total, status, created) VALUES (?, ?, ?, ?, 'confirmed', ?)", UserId, ProductId, Qty, Math.round(Total * 100.0) / 100.0, Now());
                     Tx.Commit();
-                    return App.Json(
-                        Map.of("Message", "Order created", "Order", DB.Table("orders").WhereEq("id", OrderId).First()),
-                        201
-                    );
+                    return App.Json(Map.of("Message", "Order created", "Order", DB.Table("orders").WhereEq("id", OrderId).First()), 201);
                 }
             },
             List.of(RequireJson)
@@ -349,13 +265,8 @@ public class TestApi {
 
         App.Get("/orders", Req -> {
             var Query = DB.Table("orders").OrderBy("id", "DESC");
-            if (Req.GetQuery("UserId") != null) Query = Query.WhereEq(
-                "user_id",
-                Integer.parseInt(Req.GetQuery("UserId"))
-            );
-            return App.Json(
-                Query.Paginate(Integer.parseInt(Req.GetQuery("page", "1")), Integer.parseInt(Req.GetQuery("per", "20")))
-            );
+            if (Req.GetQuery("UserId") != null) Query = Query.WhereEq("user_id", Integer.parseInt(Req.GetQuery("UserId")));
+            return App.Json(Query.Paginate(Integer.parseInt(Req.GetQuery("page", "1")), Integer.parseInt(Req.GetQuery("per", "20"))));
         });
 
         App.Post(
@@ -366,10 +277,7 @@ public class TestApi {
                 Map<String, Object> User = DB.Table("users").WhereEq("email", Email).First();
                 if (User == null) return App.Error("Invalid credentials", 401);
 
-                String Token = App.CreateJwt(
-                    Map.of("UserId", User.get("id"), "Role", User.get("role"), "Email", User.get("email")),
-                    3600
-                );
+                String Token = App.CreateJwt(Map.of("UserId", User.get("id"), "Role", User.get("role"), "Email", User.get("email")), 3600);
                 HellcatResponse Resp = App.Json(Map.of("Message", "Login successful", "Token", Token, "User", User));
                 App.SaveSession(Resp, Map.of("UserId", User.get("id"), "Role", User.get("role")), null);
                 return Resp;
@@ -394,84 +302,29 @@ public class TestApi {
 
         App.Get("/stream", Req -> {
             int Count = Math.max(1, Math.min(Integer.parseInt(Req.GetQuery("count", "5")), 20));
-            return App.Stream(
-                () -> {
-                    List<byte[]> Events = new ArrayList<>();
-                    for (int I = 0; I < Count; I++) {
-                        String Data =
-                            "data: {\"Event\":" +
-                            (I + 1) +
-                            ",\"Ts\":" +
-                            (System.currentTimeMillis() / 1000) +
-                            ",\"Value\":" +
-                            (int) (Math.random() * 100 + 1) +
-                            "}\n\n";
-                        Events.add(Data.getBytes(java.nio.charset.StandardCharsets.UTF_8));
-                        try {
-                            Thread.sleep(400);
-                        } catch (InterruptedException E) {}
-                    }
-                    Events.add("data: {\"Event\":\"done\"}\n\n".getBytes(java.nio.charset.StandardCharsets.UTF_8));
-                    return Events;
-                },
-                "text/event-stream"
-            );
+            return App.Stream(() -> {
+                List<byte[]> Events = new ArrayList<>();
+                for (int I = 0; I < Count; I++) {
+                    String Data = "data: {\"Event\":" + (I + 1) + ",\"Ts\":" + System.currentTimeMillis() / 1000 + ",\"Value\":" + (int) (Math.random() * 100 + 1) + "}\n\n";
+                    Events.add(Data.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException E) {}
+                }
+                Events.add("data: {\"Event\":\"done\"}\n\n".getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                return Events;
+            }, "text/event-stream");
         });
 
-        App.Route("/multi", List.of("GET", "POST", "PUT"), Req ->
-            App.Json(
-                Map.of(
-                    "Method",
-                    Req.Method,
-                    "Path",
-                    Req.Path,
-                    "Query",
-                    Req.QueryParams,
-                    "HasBody",
-                    Req.Body.length > 0,
-                    "ContentType",
-                    Req.GetContentType(),
-                    "RemoteIp",
-                    Req.GetRemoteIp()
-                )
-            )
-        );
+        App.Route("/multi", List.of("GET", "POST", "PUT"), Req -> App.Json(Map.of("Method", Req.Method, "Path", Req.Path, "Query", Req.QueryParams, "HasBody", Req.Body.length > 0, "ContentType", Req.GetContentType(), "RemoteIp", Req.GetRemoteIp())));
 
-        App.Get("/info", Req ->
-            App.Json(
-                Map.of(
-                    "App",
-                    App.toString(),
-                    "DB",
-                    DB.toString(),
-                    "Routes",
-                    App.ListRoutes().size(),
-                    "Sessions",
-                    App.GetSessions().Count()
-                )
-            )
-        );
+        App.Get("/info", Req -> App.Json(Map.of("App", App.toString(), "DB", DB.toString(), "Routes", App.ListRoutes().size(), "Sessions", App.GetSessions().Count())));
 
         HellcatRouter ApiRouter = new HellcatRouter("/api/v1");
 
-        ApiRouter.Get("/health", Req ->
-            App.Json(Map.of("Status", "ok", "Version", "v1", "Ts", System.currentTimeMillis() / 1000))
-        );
+        ApiRouter.Get("/health", Req -> App.Json(Map.of("Status", "ok", "Version", "v1", "Ts", System.currentTimeMillis() / 1000)));
 
-        ApiRouter.Get("/summary", Req ->
-            App.Json(
-                Map.of(
-                    "Users",
-                    DB.Table("users").Count(),
-                    "Orders",
-                    DB.Table("orders").Count(),
-                    "Products",
-                    DB.Table("products").Count(),
-                    "LogEntries",
-                    RequestLog.size()
-                )
-            )
-        );
+        ApiRouter.Get("/summary", Req -> App.Json(Map.of("Users", DB.Table("users").Count(), "Orders", DB.Table("orders").Count(), "Products", DB.Table("products").Count(), "LogEntries", RequestLog.size())));
 
         App.Include(ApiRouter);
         App.Run();

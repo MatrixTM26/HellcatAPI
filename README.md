@@ -8,6 +8,13 @@ A fast serve Raw HTTP server framework for backend developments, strongly typed 
 ![Maven](https://img.shields.io/badge/Maven-000000?style=for-the-badge&logo=apachemaven&logoColor=ee6a2a&labelColor=000000&color=03001a)
 ![Networking](https://img.shields.io/badge/Networking-000000?style=for-the-badge&logo=cloudflare&logoColor=26ff7d&labelColor=000000&color=03001a)
 
+---
+
+> [!CAUTION]
+> This tool is currently under development, in some release versions, you may encounter functional errors or logic flaws.
+
+---
+
 ## Project Structure
 
 ```txt
@@ -87,22 +94,20 @@ java -jar HellcatAPI.jar
 ```java
 HellcatApp App = new HellcatApp("your-secret-key");
 
-App.Get("/hello", Req ->
-    App.Json(Map.of("Message", "Hello World"))
-);
+App.Get("/hello", (Req) -> App.Json(Map.of("Message", "Hello World")));
 
-App.Post("/echo", Req -> {
-    Map<String, Object> Body = Req.GetJson();
-    return App.Json(Body);
+App.Post("/echo", (Req) -> {
+  Map<String, Object> Body = Req.GetJson();
+  return App.Json(Body);
 });
 
-App.Get("/users/<int:Id>", Req -> {
-    int Id = Integer.parseInt(Req.PathParams.get("Id"));
-    return App.Json(Map.of("Id", Id));
+App.Get("/users/<int:Id>", (Req) -> {
+  int Id = Integer.parseInt(Req.PathParams.get("Id"));
+  return App.Json(Map.of("Id", Id));
 });
 
-App.Route("/multi", List.of("GET", "POST"), Req ->
-    App.Json(Map.of("Method", Req.Method))
+App.Route("/multi", List.of("GET", "POST"), (Req) ->
+  App.Json(Map.of("Method", Req.Method))
 );
 
 App.Run();
@@ -113,17 +118,23 @@ App.Run();
 ```java
 // Built-in middleware
 App.UseCors(List.of("*"), false);
+
 App.UseRateLimit(100, 60);
+
 App.UseSecurityHeaders();
+
 App.UseGzip(1024);
+
 App.UseBodySizeLimit(10 * 1024 * 1024);
 
 // Custom middleware (lambda)
 App.UseMiddleware((Req, Next) -> {
-    long Start  = System.currentTimeMillis();
-    Object Resp = Next.apply(Req);
-    System.out.println("Duration: " + (System.currentTimeMillis() - Start) + "ms");
-    return Resp;
+  long Start = System.currentTimeMillis();
+  Object Resp = Next.apply(Req);
+  System.out.println(
+    "Duration: " + (System.currentTimeMillis() - Start) + "ms"
+  );
+  return Resp;
 });
 
 // Route-level middleware
@@ -135,11 +146,11 @@ App.Post("/secure", Handler, List.of(RequireAuthMiddleware));
 Uses a lightweight Jinja2-like engine. Templates go in the `templates/` folder.
 
 ```java
-App.Get("/", Req ->
-    App.Render("index.html", Map.of(
-        "Title",   "HellcatAPI",
-        "Message", "Server is running!"
-    ))
+App.Get("/", (Req) ->
+  App.Render(
+    "index.html",
+    Map.of("Title", "HellcatAPI", "Message", "Server is running!")
+  )
 );
 ```
 
@@ -229,6 +240,7 @@ Map<String, Object> Payload = App.DecodeJwt(token);
 
 // Session
 Map<String, Object> Session = App.GetSession(Req);
+
 App.SaveSession(Response, Map.of("UserId", 1), null);
 ```
 
@@ -237,8 +249,9 @@ App.SaveSession(Response, Map.of("UserId", 1), null);
 ```java
 HellcatRouter Api = new HellcatRouter("/api/v1");
 
-Api.Get("/health", Req -> App.Json(Map.of("Status", "ok")));
-Api.Get("/users",  Req -> App.Json(DB.Table("users").All()));
+Api.Get("/health", (Req) -> App.Json(Map.of("Status", "ok")));
+
+Api.Get("/users", (Req) -> App.Json(DB.Table("users").All()));
 
 App.Include(Api);
 ```
@@ -247,11 +260,14 @@ App.Include(Api);
 
 ```java
 App.ErrorHandler(404, (Req, Err) ->
-    App.Json(Map.of("Error", true, "Message", "Route not found", "Path", Req.Path), 404)
+  App.Json(
+    Map.of("Error", true, "Message", "Route not found", "Path", Req.Path),
+    404
+  )
 );
 
 App.ErrorHandler(500, (Req, Err) ->
-    App.Json(Map.of("Error", true, "Message", "Internal server error"), 500)
+  App.Json(Map.of("Error", true, "Message", "Internal server error"), 500)
 );
 ```
 

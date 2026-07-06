@@ -27,12 +27,7 @@ public class HellcatConnectionHandler implements Runnable {
     private final HellcatRouter Router;
     private final HellcatServerLogger Logger;
 
-    public HellcatConnectionHandler(
-        Socket ClientSocket,
-        String[] RemoteAddress,
-        HellcatRouter Router,
-        HellcatServerLogger Logger
-    ) {
+    public HellcatConnectionHandler(Socket ClientSocket, String[] RemoteAddress, HellcatRouter Router, HellcatServerLogger Logger) {
         this.ClientSocket = ClientSocket;
         this.RemoteAddress = RemoteAddress;
         this.Router = Router;
@@ -61,12 +56,7 @@ public class HellcatConnectionHandler implements Runnable {
                 try {
                     Request = HellcatRequestParser.Parse(RawData, RemoteAddress);
                 } catch (Exception ParseErr) {
-                    Logger.WARN(
-                        "Parse error from %s: %s",
-                        RemoteAddress[0],
-                        ParseErr.getClass().getSimpleName() +
-                        (ParseErr.getMessage() != null ? ": " + ParseErr.getMessage() : "")
-                    );
+                    Logger.WARN("Parse error from %s: %s", RemoteAddress[0], ParseErr.getClass().getSimpleName() + (ParseErr.getMessage() != null ? ": " + ParseErr.getMessage() : ""));
                     break;
                 }
 
@@ -86,20 +76,13 @@ public class HellcatConnectionHandler implements Runnable {
                 if (ShouldClose) break;
                 ClientSocket.setSoTimeout(KeepAliveTimeoutMs);
             }
-        } catch (SocketTimeoutException E) {} catch (IOException E) {
+        } catch (SocketTimeoutException E) {
+        } catch (IOException E) {
             if (!E.getMessage().contains("Connection reset") && !E.getMessage().contains("Broken pipe")) {
-                Logger.DEBUG(
-                    "Connection IO error from %s: %s",
-                    RemoteAddress[0],
-                    E.getClass().getSimpleName() + (E.getMessage() != null ? ": " + E.getMessage() : "")
-                );
+                Logger.DEBUG("Connection IO error from %s: %s", RemoteAddress[0], E.getClass().getSimpleName() + (E.getMessage() != null ? ": " + E.getMessage() : ""));
             }
         } catch (Exception E) {
-            Logger.ERROR(
-                "Unhandled error from %s: %s",
-                RemoteAddress[0],
-                E.getClass().getSimpleName() + (E.getMessage() != null ? ": " + E.getMessage() : "")
-            );
+            Logger.ERROR("Unhandled error from %s: %s", RemoteAddress[0], E.getClass().getSimpleName() + (E.getMessage() != null ? ": " + E.getMessage() : ""));
         } finally {
             Logger.DecrActiveConnections();
             try {
@@ -146,7 +129,7 @@ public class HellcatConnectionHandler implements Runnable {
                 }
             }
 
-            if (HeaderDone && (Current.length - HeaderEndOffset) >= ContentLength) break;
+            if (HeaderDone && Current.length - HeaderEndOffset >= ContentLength) break;
             if (Current.length > MaxRequestSize) {
                 Logger.WARN("Request too large from %s", RemoteAddress[0]);
                 break;
@@ -167,17 +150,7 @@ public class HellcatConnectionHandler implements Runnable {
         if (Data.length < 4) return false;
         byte[] Prefix = new byte[] { Data[0], Data[1], Data[2], Data[3] };
         String P = new String(Prefix, java.nio.charset.StandardCharsets.ISO_8859_1);
-        return (
-            P.startsWith("GET ") ||
-            P.startsWith("POST") ||
-            P.startsWith("PUT ") ||
-            P.startsWith("DELE") ||
-            P.startsWith("PATC") ||
-            P.startsWith("HEAD") ||
-            P.startsWith("OPTI") ||
-            P.startsWith("TRAC") ||
-            P.startsWith("CONN")
-        );
+        return P.startsWith("GET ") || P.startsWith("POST") || P.startsWith("PUT ") || P.startsWith("DELE") || P.startsWith("PATC") || P.startsWith("HEAD") || P.startsWith("OPTI") || P.startsWith("TRAC") || P.startsWith("CONN");
     }
 
     private Object Dispatch(HellcatRequest Request) {
@@ -206,30 +179,19 @@ public class HellcatConnectionHandler implements Runnable {
         return RunMiddlewarePipeline(Request, Route.Handler, AllMiddlewares);
     }
 
-    private Object RunMiddlewarePipeline(
-        HellcatRequest Request,
-        Function<HellcatRequest, Object> FinalHandler,
-        List<HellcatMiddleware> Middlewares
-    ) {
+    private Object RunMiddlewarePipeline(HellcatRequest Request, Function<HellcatRequest, Object> FinalHandler, List<HellcatMiddleware> Middlewares) {
         try {
             Function<HellcatRequest, Object> Chain = BuildChain(Middlewares, 0, FinalHandler);
             return NormalizeResponse(Chain.apply(Request));
         } catch (Exception Err) {
-            Logger.ERROR(
-                "Handler error: %s",
-                Err.getClass().getSimpleName() + (Err.getMessage() != null ? ": " + Err.getMessage() : "")
-            );
+            Logger.ERROR("Handler error: %s", Err.getClass().getSimpleName() + (Err.getMessage() != null ? ": " + Err.getMessage() : ""));
             BiFunction<HellcatRequest, Exception, Object> ErrorHandler = Router.GetErrorHandler(500);
             if (ErrorHandler != null) return ErrorHandler.apply(Request, Err);
             return HellcatResponse.Error("Internal server error", 500, null);
         }
     }
 
-    private Function<HellcatRequest, Object> BuildChain(
-        List<HellcatMiddleware> Middlewares,
-        int Index,
-        Function<HellcatRequest, Object> FinalHandler
-    ) {
+    private Function<HellcatRequest, Object> BuildChain(List<HellcatMiddleware> Middlewares, int Index, Function<HellcatRequest, Object> FinalHandler) {
         if (Index >= Middlewares.size()) return FinalHandler;
         HellcatMiddleware Current = Middlewares.get(Index);
         Function<HellcatRequest, Object> Next = BuildChain(Middlewares, Index + 1, FinalHandler);

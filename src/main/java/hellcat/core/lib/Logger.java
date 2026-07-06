@@ -21,102 +21,26 @@ public class Logger {
     }
 
     private static String FormatMsg(String Format, Object[] Args) {
-        return (Args == null || Args.length == 0) ? Format : String.format(Format, (Object[]) Args);
+        return Args == null || Args.length == 0 ? Format : String.format(Format, (Object[]) Args);
     }
 
     public static void INFO(String Format, Object... Args) {
         String Message = FormatMsg(Format, Args);
-        System.out.println(
-            BOLD +
-            DIM +
-            WHITE +
-            "[" +
-            TimeStamp() +
-            "]" +
-            RESET +
-            BOLD +
-            WHITE +
-            "[" +
-            BLUE +
-            "INFO" +
-            WHITE +
-            "]" +
-            DIM +
-            " " +
-            Message +
-            RESET
-        );
+        System.out.println(BOLD + DIM + WHITE + "[" + TimeStamp() + "]" + RESET + BOLD + WHITE + "[" + BLUE + "INFO" + WHITE + "]" + DIM + " " + Message + RESET);
     }
 
     public static void DEBUG(String Format, Object... Args) {
         String Message = FormatMsg(Format, Args);
-        System.out.println(
-            BOLD +
-            DIM +
-            WHITE +
-            "[" +
-            TimeStamp() +
-            "]" +
-            RESET +
-            BOLD +
-            WHITE +
-            "[" +
-            GREEN +
-            "DEBUG" +
-            WHITE +
-            "]" +
-            DIM +
-            " " +
-            Message +
-            RESET
-        );
+        System.out.println(BOLD + DIM + WHITE + "[" + TimeStamp() + "]" + RESET + BOLD + WHITE + "[" + GREEN + "DEBUG" + WHITE + "]" + DIM + " " + Message + RESET);
     }
 
     public static void WARNING(String Format, Object... Args) {
         String Message = FormatMsg(Format, Args);
-        System.out.println(
-            BOLD +
-            DIM +
-            WHITE +
-            "[" +
-            TimeStamp() +
-            "]" +
-            RESET +
-            BOLD +
-            WHITE +
-            "[" +
-            YELLOW +
-            "WARNING" +
-            WHITE +
-            "]" +
-            DIM +
-            " " +
-            Message +
-            RESET
-        );
+        System.out.println(BOLD + DIM + WHITE + "[" + TimeStamp() + "]" + RESET + BOLD + WHITE + "[" + YELLOW + "WARNING" + WHITE + "]" + DIM + " " + Message + RESET);
     }
 
     public static void ERROR(String Format, Object... Args) {
         String Message = FormatMsg(Format, Args);
-        System.out.println(
-            BOLD +
-            DIM +
-            WHITE +
-            "[" +
-            TimeStamp() +
-            "]" +
-            RESET +
-            BOLD +
-            WHITE +
-            "[" +
-            RED +
-            "ERROR" +
-            WHITE +
-            "]" +
-            DIM +
-            " " +
-            Message +
-            RESET
-        );
+        System.out.println(BOLD + DIM + WHITE + "[" + TimeStamp() + "]" + RESET + BOLD + WHITE + "[" + RED + "ERROR" + WHITE + "]" + DIM + " " + Message + RESET);
     }
 }

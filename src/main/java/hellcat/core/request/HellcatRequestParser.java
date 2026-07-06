@@ -11,9 +11,7 @@ public class HellcatRequestParser {
         HellcatRequest Request = new HellcatRequest();
         Request.RemoteAddress = RemoteAddress;
 
-        if (RawData == null || RawData.length == 0) throw new HellcatRequest.HellcatRequestParseException(
-            "Empty request data received"
-        );
+        if (RawData == null || RawData.length == 0) throw new HellcatRequest.HellcatRequestParseException("Empty request data received");
 
         try {
             int SepIndex = IndexOfDoubleCrlf(RawData);
@@ -32,9 +30,7 @@ public class HellcatRequestParser {
             String HeaderSection = new String(HeaderBytes, StandardCharsets.UTF_8);
             String[] Lines = HeaderSection.split("\r\n");
 
-            if (Lines.length == 0 || Lines[0].isBlank()) throw new HellcatRequest.HellcatRequestParseException(
-                "Missing HTTP request line"
-            );
+            if (Lines.length == 0 || Lines[0].isBlank()) throw new HellcatRequest.HellcatRequestParseException("Missing HTTP request line");
 
             ParseRequestLine(Request, Lines[0]);
             ParseHeaders(Request, Lines, 1);
@@ -43,9 +39,7 @@ public class HellcatRequestParser {
         } catch (HellcatRequest.HellcatRequestParseException E) {
             throw E;
         } catch (Exception E) {
-            throw new HellcatRequest.HellcatRequestParseException(
-                "Unexpected error while parsing request: " + E.getMessage()
-            );
+            throw new HellcatRequest.HellcatRequestParseException("Unexpected error while parsing request: " + E.getMessage());
         }
 
         return Request;
@@ -60,9 +54,7 @@ public class HellcatRequestParser {
 
     private static void ParseRequestLine(HellcatRequest Request, String Line) {
         String[] Parts = Line.trim().split(" ", 3);
-        if (Parts.length < 2) throw new HellcatRequest.HellcatRequestParseException(
-            "Malformed HTTP request line: '" + Line + "'"
-        );
+        if (Parts.length < 2) throw new HellcatRequest.HellcatRequestParseException("Malformed HTTP request line: '" + Line + "'");
 
         Request.Method = Parts[0].toUpperCase();
         String FullPath = Parts[1];

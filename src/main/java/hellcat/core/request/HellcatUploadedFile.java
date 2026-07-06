@@ -21,9 +21,7 @@ public class HellcatUploadedFile {
         try (FileOutputStream Out = new FileOutputStream(DestinationPath)) {
             Out.write(Data);
         } catch (IOException Err) {
-            throw new HellcatRequest.HellcatRequestException(
-                "Failed to save uploaded file '" + Filename + "' to '" + DestinationPath + "': " + Err.getMessage()
-            );
+            throw new HellcatRequest.HellcatRequestException("Failed to save uploaded file '" + Filename + "' to '" + DestinationPath + "': " + Err.getMessage());
         }
     }
 

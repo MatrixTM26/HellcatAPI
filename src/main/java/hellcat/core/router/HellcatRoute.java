@@ -18,12 +18,7 @@ public class HellcatRoute {
     private final Pattern Regex;
     private final List<String> ParamNames;
 
-    public HellcatRoute(
-        String RoutePattern,
-        Function<HellcatRequest, Object> Handler,
-        List<String> Methods,
-        List<HellcatMiddleware> Middlewares
-    ) {
+    public HellcatRoute(String RoutePattern, Function<HellcatRequest, Object> Handler, List<String> Methods, List<HellcatMiddleware> Middlewares) {
         this.RoutePattern = RoutePattern;
         this.Handler = Handler;
         this.Methods = NormalizeMethods(Methods);

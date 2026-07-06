@@ -31,12 +31,7 @@ public class HellcatRouter {
         return Full.isEmpty() ? "/" : Full;
     }
 
-    public void AddRoute(
-        String Path,
-        Function<HellcatRequest, Object> Handler,
-        List<String> Methods,
-        List<HellcatMiddleware> Middlewares
-    ) {
+    public void AddRoute(String Path, Function<HellcatRequest, Object> Handler, List<String> Methods, List<HellcatMiddleware> Middlewares) {
         String FullPath = NormalizePath(Path);
         Routes.add(new HellcatRoute(FullPath, Handler, Methods, Middlewares));
     }

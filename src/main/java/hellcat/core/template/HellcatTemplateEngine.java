@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.*;
 
 public class HellcatTemplateEngine {
+
     public String TemplateDirectory;
     private final Map<String, CacheEntry> Cache = new ConcurrentHashMap<>();
 
@@ -42,12 +43,10 @@ public class HellcatTemplateEngine {
     }
 
     private String LoadFile(String TemplateName) {
-        if (TemplateDirectory == null || TemplateDirectory.isEmpty())
-            throw new HellcatTemplateNotFoundException("Cannot load '" + TemplateName + "': no TemplateDirectory configured");
+        if (TemplateDirectory == null || TemplateDirectory.isEmpty()) throw new HellcatTemplateNotFoundException("Cannot load '" + TemplateName + "': no TemplateDirectory configured");
 
         File FilePath = new File(TemplateDirectory, TemplateName);
-        if (!FilePath.isFile())
-            throw new HellcatTemplateNotFoundException("Template not found: '" + FilePath.getAbsolutePath() + "'");
+        if (!FilePath.isFile()) throw new HellcatTemplateNotFoundException("Template not found: '" + FilePath.getAbsolutePath() + "'");
 
         long CurrentMtime = FilePath.lastModified();
         CacheEntry Cached = Cache.get(TemplateName);
@@ -72,8 +71,9 @@ public class HellcatTemplateEngine {
 
         String ParentName = ExtendsMatch.group(1);
         String ParentSource;
-        try { ParentSource = LoadFile(ParentName); }
-        catch (HellcatTemplateNotFoundException E) {
+        try {
+            ParentSource = LoadFile(ParentName);
+        } catch (HellcatTemplateNotFoundException E) {
             throw new HellcatTemplateExtendsException("Parent template not found: " + E.getMessage());
         }
 
@@ -86,15 +86,14 @@ public class HellcatTemplateEngine {
         StringBuffer Result = new StringBuffer();
         Matcher ParentBlocks = Pattern.compile("(?s)\\{%\\s*block\\s+(\\w+)\\s*%\\}(.*?)\\{%\\s*endblock\\s*%\\}").matcher(ParentSource);
         while (ParentBlocks.find()) {
-            String BlockName    = ParentBlocks.group(1);
+            String BlockName = ParentBlocks.group(1);
             String DefaultContent = ParentBlocks.group(2);
-            String Replacement  = ChildBlocks.getOrDefault(BlockName, DefaultContent);
+            String Replacement = ChildBlocks.getOrDefault(BlockName, DefaultContent);
             ParentBlocks.appendReplacement(Result, Matcher.quoteReplacement(Replacement));
         }
         ParentBlocks.appendTail(Result);
         return Result.toString();
     }
-
 
     private String ProcessIncludes(String Source, Map<String, Object> Context) {
         Pattern P = Pattern.compile("\\{%\\s*include\\s+\"([^\"]+)\"\\s*%\\}");
@@ -103,8 +102,9 @@ public class HellcatTemplateEngine {
         while (M.find()) {
             String IncludedName = M.group(1);
             String IncludedSource;
-            try { IncludedSource = LoadFile(IncludedName); }
-            catch (HellcatTemplateNotFoundException E) {
+            try {
+                IncludedSource = LoadFile(IncludedName);
+            } catch (HellcatTemplateNotFoundException E) {
                 throw new HellcatTemplateIncludeException("Included template not found: " + E.getMessage());
             }
             String Rendered = RenderString(IncludedSource, Context, IncludedName);
@@ -125,10 +125,10 @@ public class HellcatTemplateEngine {
         Matcher M = P.matcher(Source);
         StringBuffer Result = new StringBuffer();
         while (M.find()) {
-            String VarName      = M.group(1);
+            String VarName = M.group(1);
             String IterableExpr = M.group(2).trim();
-            String Body         = M.group(3);
-            Object Iterable     = SafeEval(IterableExpr, Context);
+            String Body = M.group(3);
+            Object Iterable = SafeEval(IterableExpr, Context);
             StringBuilder Parts = new StringBuilder();
             if (Iterable instanceof Iterable<?> It) {
                 for (Object Item : It) {
@@ -149,7 +149,7 @@ public class HellcatTemplateEngine {
         StringBuffer Result = new StringBuffer();
         while (M.find()) {
             String Condition = M.group(1);
-            String Body      = M.group(2);
+            String Body = M.group(2);
             String Expanded;
             if (IsTruthy(SafeEval(Condition, Context))) {
                 Pattern ElseP = Pattern.compile("(?s)^(.*?)\\{%\\s*else\\s*%\\}(.*)");
@@ -167,12 +167,12 @@ public class HellcatTemplateEngine {
     }
 
     private boolean IsTruthy(Object Value) {
-        if (Value == null)  return false;
-        if (Value instanceof Boolean B)  return B;
-        if (Value instanceof Number N)   return N.doubleValue() != 0;
-        if (Value instanceof String S)   return !S.isEmpty();
+        if (Value == null) return false;
+        if (Value instanceof Boolean B) return B;
+        if (Value instanceof Number N) return N.doubleValue() != 0;
+        if (Value instanceof String S) return !S.isEmpty();
         if (Value instanceof Collection<?> C) return !C.isEmpty();
-        if (Value instanceof Map<?, ?> Mv)    return !Mv.isEmpty();
+        if (Value instanceof Map<?, ?> Mv) return !Mv.isEmpty();
         return true;
     }
 
@@ -182,11 +182,11 @@ public class HellcatTemplateEngine {
         StringBuffer Result = new StringBuffer();
         while (M.find()) {
             String Expression = M.group(1).trim();
-            boolean RawMode   = Expression.endsWith("| raw");
+            boolean RawMode = Expression.endsWith("| raw");
             if (RawMode) Expression = Expression.substring(0, Expression.length() - 5).trim();
             Object Value = ResolveExpression(Expression, Context);
-            String Str   = Value != null ? Value.toString() : "";
-            String Out   = RawMode ? Str : EscapeHtml(Str);
+            String Str = Value != null ? Value.toString() : "";
+            String Out = RawMode ? Str : EscapeHtml(Str);
             M.appendReplacement(Result, Matcher.quoteReplacement(Out));
         }
         M.appendTail(Result);
@@ -218,42 +218,65 @@ public class HellcatTemplateEngine {
 
     private Object SafeEval(String Expression, Map<String, Object> Context) {
         String Trimmed = Expression.trim();
-        if ("true".equalsIgnoreCase(Trimmed))  return true;
+        if ("true".equalsIgnoreCase(Trimmed)) return true;
         if ("false".equalsIgnoreCase(Trimmed)) return false;
         if ("None".equals(Trimmed) || "null".equals(Trimmed)) return null;
-        try { return Long.parseLong(Trimmed); } catch (NumberFormatException E) {}
-        try { return Double.parseDouble(Trimmed); } catch (NumberFormatException E) {}
+        try {
+            return Long.parseLong(Trimmed);
+        } catch (NumberFormatException E) {}
+        try {
+            return Double.parseDouble(Trimmed);
+        } catch (NumberFormatException E) {}
         return ResolveExpression(Trimmed, Context);
     }
 
     private static String EscapeHtml(String Input) {
-        return Input.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-                    .replace("\"", "&quot;").replace("'", "&#39;");
+        return Input.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'", "&#39;");
     }
 
     private static class CacheEntry {
+
         final String Content;
-        final long   Mtime;
-        CacheEntry(String Content, long Mtime) { this.Content = Content; this.Mtime = Mtime; }
+        final long Mtime;
+
+        CacheEntry(String Content, long Mtime) {
+            this.Content = Content;
+            this.Mtime = Mtime;
+        }
     }
 
     public static class HellcatTemplateException extends RuntimeException {
-        public HellcatTemplateException(String Message) { super(Message); }
+
+        public HellcatTemplateException(String Message) {
+            super(Message);
+        }
     }
 
     public static class HellcatTemplateNotFoundException extends HellcatTemplateException {
-        public HellcatTemplateNotFoundException(String Message) { super(Message); }
+
+        public HellcatTemplateNotFoundException(String Message) {
+            super(Message);
+        }
     }
 
     public static class HellcatTemplateRenderException extends HellcatTemplateException {
-        public HellcatTemplateRenderException(String Message) { super(Message); }
+
+        public HellcatTemplateRenderException(String Message) {
+            super(Message);
+        }
     }
 
     public static class HellcatTemplateIncludeException extends HellcatTemplateException {
-        public HellcatTemplateIncludeException(String Message) { super(Message); }
+
+        public HellcatTemplateIncludeException(String Message) {
+            super(Message);
+        }
     }
 
     public static class HellcatTemplateExtendsException extends HellcatTemplateException {
-        public HellcatTemplateExtendsException(String Message) { super(Message); }
+
+        public HellcatTemplateExtendsException(String Message) {
+            super(Message);
+        }
     }
 }

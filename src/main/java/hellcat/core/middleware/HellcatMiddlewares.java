@@ -116,11 +116,7 @@ public class HellcatMiddlewares {
 
             if (Timestamps.size() >= MaxRequests) {
                 long RetryAfter = (Timestamps.get(0) + WindowSeconds * 1000L - Now) / 1000 + 1;
-                HellcatResponse Resp = HellcatResponse.Error(
-                    "Rate limit exceeded. Try again in " + RetryAfter + " seconds.",
-                    429,
-                    null
-                );
+                HellcatResponse Resp = HellcatResponse.Error("Rate limit exceeded. Try again in " + RetryAfter + " seconds.", 429, null);
                 Resp.SetHeader("Retry-After", String.valueOf(RetryAfter));
                 return Resp;
             }
@@ -137,9 +133,7 @@ public class HellcatMiddlewares {
         private final String Realm;
 
         public HellcatBasicAuthMiddleware(String Username, String Password, String Realm) {
-            if (Username == null || Password == null) throw new HellcatAuthException(
-                "BasicAuthMiddleware requires both a Username and Password"
-            );
+            if (Username == null || Password == null) throw new HellcatAuthException("BasicAuthMiddleware requires both a Username and Password");
             this.Username = Username;
             this.PasswordHash = Sha256(Password);
             this.Realm = Realm != null ? Realm : "HellcatAPI";
@@ -151,10 +145,7 @@ public class HellcatMiddlewares {
             if (AuthHeader == null || !AuthHeader.startsWith("Basic ")) return ChallengeResponse();
 
             try {
-                String Decoded = new String(
-                    Base64.getDecoder().decode(AuthHeader.substring(6)),
-                    StandardCharsets.UTF_8
-                );
+                String Decoded = new String(Base64.getDecoder().decode(AuthHeader.substring(6)), StandardCharsets.UTF_8);
                 int Colon = Decoded.indexOf(':');
                 if (Colon < 0) return ChallengeResponse();
                 String User = Decoded.substring(0, Colon);
@@ -180,9 +171,7 @@ public class HellcatMiddlewares {
         private final Function<String, Boolean> ValidatorFunc;
 
         public HellcatBearerAuthMiddleware(List<String> ValidTokens, Function<String, Boolean> ValidatorFunc) {
-            if ((ValidTokens == null || ValidTokens.isEmpty()) && ValidatorFunc == null) throw new HellcatAuthException(
-                "BearerAuthMiddleware requires either ValidTokens or ValidatorFunc"
-            );
+            if ((ValidTokens == null || ValidTokens.isEmpty()) && ValidatorFunc == null) throw new HellcatAuthException("BearerAuthMiddleware requires either ValidTokens or ValidatorFunc");
             this.ValidTokens = ValidTokens != null ? new HashSet<>(ValidTokens) : new HashSet<>();
             this.ValidatorFunc = ValidatorFunc;
         }
@@ -190,11 +179,7 @@ public class HellcatMiddlewares {
         @Override
         public Object Apply(HellcatRequest Request, Function<HellcatRequest, Object> Next) {
             String AuthHeader = Request.GetAuthorization();
-            if (AuthHeader == null || !AuthHeader.startsWith("Bearer ")) return HellcatResponse.Error(
-                "Authentication token is required",
-                401,
-                null
-            );
+            if (AuthHeader == null || !AuthHeader.startsWith("Bearer ")) return HellcatResponse.Error("Authentication token is required", 401, null);
 
             String Token = AuthHeader.substring(7).trim();
             if (Token.isEmpty()) return HellcatResponse.Error("Bearer token must not be empty", 401, null);
@@ -223,15 +208,7 @@ public class HellcatMiddlewares {
         public Object Apply(HellcatRequest Request, Function<HellcatRequest, Object> Next) {
             int BodySize = Request.Body.length;
             if (BodySize > MaxBytes) {
-                return HellcatResponse.Error(
-                    "Request body too large: " +
-                    BodySize +
-                    " bytes received, maximum allowed is " +
-                    MaxBytes +
-                    " bytes.",
-                    413,
-                    null
-                );
+                return HellcatResponse.Error("Request body too large: " + BodySize + " bytes received, maximum allowed is " + MaxBytes + " bytes.", 413, null);
             }
             return Next.apply(Request);
         }
@@ -291,9 +268,7 @@ public class HellcatMiddlewares {
         private final String HeaderName;
 
         public HellcatCsrfMiddleware(String SecretKey, String CookieName, String HeaderName) {
-            if (SecretKey == null || SecretKey.isEmpty()) throw new HellcatCsrfException(
-                "CsrfMiddleware requires a non-empty SecretKey"
-            );
+            if (SecretKey == null || SecretKey.isEmpty()) throw new HellcatCsrfException("CsrfMiddleware requires a non-empty SecretKey");
             this.SecretKey = SecretKey;
             this.CookieName = CookieName != null ? CookieName : "hellcat_csrf";
             this.HeaderName = (HeaderName != null ? HeaderName : "X-Csrf-Token").toLowerCase();
@@ -320,11 +295,7 @@ public class HellcatMiddlewares {
             String HeaderToken = Request.GetHeader(HeaderName);
 
             if (CookieToken == null) return HellcatResponse.Error("CSRF cookie is missing", 403, null);
-            if (HeaderToken == null) return HellcatResponse.Error(
-                "CSRF header '" + HeaderName + "' is missing",
-                403,
-                null
-            );
+            if (HeaderToken == null) return HellcatResponse.Error("CSRF header '" + HeaderName + "' is missing", 403, null);
             if (!CookieToken.equals(HeaderToken)) return HellcatResponse.Error("CSRF token mismatch", 403, null);
 
             return Next.apply(Request);
@@ -349,21 +320,13 @@ public class HellcatMiddlewares {
             if (Data == null) return HellcatResponse.Error("Request body is not valid JSON", 400, null);
 
             for (String Field : RequiredFields) {
-                if (!Data.containsKey(Field)) return HellcatResponse.Error(
-                    "Required field '" + Field + "' is missing from the request body",
-                    422,
-                    null
-                );
+                if (!Data.containsKey(Field)) return HellcatResponse.Error("Required field '" + Field + "' is missing from the request body", 422, null);
             }
 
             for (Map.Entry<String, Class<?>> Entry : Schema.entrySet()) {
                 String FieldName = Entry.getKey();
                 if (Data.containsKey(FieldName) && !Entry.getValue().isInstance(Data.get(FieldName))) {
-                    return HellcatResponse.Error(
-                        "Field '" + FieldName + "' must be of type '" + Entry.getValue().getSimpleName() + "'",
-                        422,
-                        null
-                    );
+                    return HellcatResponse.Error("Field '" + FieldName + "' must be of type '" + Entry.getValue().getSimpleName() + "'", 422, null);
                 }
             }
 

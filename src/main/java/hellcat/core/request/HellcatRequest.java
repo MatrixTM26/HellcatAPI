@@ -117,9 +117,7 @@ public class HellcatRequest {
 
     public HellcatUploadedFile RequireFile(String FieldName) {
         HellcatUploadedFile File = Files.get(FieldName);
-        if (File == null) throw new HellcatRequestException(
-            "Expected file upload for field '" + FieldName + "' but it was not found"
-        );
+        if (File == null) throw new HellcatRequestException("Expected file upload for field '" + FieldName + "' but it was not found");
         return File;
     }
 
